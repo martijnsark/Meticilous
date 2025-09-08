@@ -3,21 +3,35 @@ body {
     color: crimson;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;
     min-height: 100vh;
     margin: 0;
     padding: 20px;
 }
 
+.header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo {
+    height: 80px;
+    width: auto;
+}
+
 @media (max-width: 768px) {
     body {
-        text-align: center;
+        text-align: left;
         padding: 10px;
     }
+
+    .logo {
+        height: 80px;
+    }
     
-    h1 {
-        font-size: 2rem;
-        margin: 0;
+    .header {
+        gap: 10px;
     }
 }
