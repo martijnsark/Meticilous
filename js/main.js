@@ -2,6 +2,7 @@ window.addEventListener('load', init)
 
 function init() {
     console.log('Hello, world!')
+    trackCurrentVideo();
     togglePlayPause();
     handleLikes();
     handleSharing();
@@ -21,6 +22,55 @@ function togglePlayPause() {
             }
         });
     }
+}
+
+function trackCurrentVideo() {
+    const videos = document.querySelectorAll('.video');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
+                const currentVideoId = entry.target.id;
+                console.log('Currently viewing:', currentVideoId);
+                handleVideoChange(currentVideoId);
+                // You can store this in a global variable
+                window.currentVideo = currentVideoId;
+                
+                // Update URL hash
+                window.location.hash = currentVideoId;
+            }
+        });
+    }, {
+        threshold: 0.5 // Video needs to be 50% visible
+    });
+    
+    videos.forEach(video => observer.observe(video));
+}
+
+function handleVideoChange(id) {
+    // This function can be expanded to handle actions when the video changes
+    // For example, updating UI elements or loading related content
+    console.log('Video changed to:', id);
+    if (id === 'video-3') {
+        showDialog();
+    }
+}
+
+function showDialog() {
+    const dialog = document.querySelector('dialog');
+    const buttons = dialog.querySelectorAll('button');
+
+    dialog.showModal();
+
+    buttons[0].addEventListener('click', () => {
+        dialog.close();
+        alert('You have declined the permissions. Some features may not work properly.');
+    });
+
+    buttons[1].addEventListener('click', () => {
+        dialog.close();
+        alert('Showing permissions...');
+    });
 }
 
 function handleLikes() {
