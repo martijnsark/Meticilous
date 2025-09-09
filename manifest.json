@@ -3,12 +3,12 @@
     "short_name": "Meticilous",
     "icons": [
         {
-            "src": "images/logo/logo192.png",
+            "src": "/Meticilous/images/logo/logo192.png",
             "sizes": "192x192",
             "type": "image/png"
         },
         {
-            "src": "images/logo/logo512.png",
+            "src": "/Meticilous/images/logo/logo512.png",
             "sizes": "512x512",
             "type": "image/png"
         }
