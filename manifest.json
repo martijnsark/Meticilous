@@ -14,7 +14,7 @@
         }
     ],
     "scope": "/Meticilous/",
-    "start_url": "/Meticilous/index.html",
+    "start_url": "/Meticilous/",
     "display": "fullscreen",
     "theme_color": "red",
     "background_color": "black"
