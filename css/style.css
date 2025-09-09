@@ -98,6 +98,11 @@ body {
 .videoSidebar .material-icons {
     font-size: 28px;
     cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.videoSidebar__button:hover .material-icons {
+    transform: scale(1.2);
 }
 
 .videoSidebar__button {
