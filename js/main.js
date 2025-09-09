@@ -1,7 +1,7 @@
 window.addEventListener('load', init)
 
 function init() {
-    console.log('Hello, world!')
+    createEventListeners();
     trackCurrentVideo();
     togglePlayPause();
     handleLikes();
@@ -48,29 +48,41 @@ function trackCurrentVideo() {
 }
 
 function handleVideoChange(id) {
-    // This function can be expanded to handle actions when the video changes
-    // For example, updating UI elements or loading related content
-    console.log('Video changed to:', id);
     if (id === 'video-3') {
         showDialog();
     }
 }
 
-function showDialog() {
+function createEventListeners() {
     const dialog = document.querySelector('dialog');
     const buttons = dialog.querySelectorAll('button');
 
+    buttons[0].addEventListener('click', () => handleDialogButtons(false));
+    buttons[1].addEventListener('click', () => handleDialogButtons(true));
+}
+
+function showDialog() {
+    const dialog = document.querySelector('dialog');
+
+    if (localStorage.getItem('permissionsGranted') === 'true') {
+        return; // Permissions already granted, do not show dialog
+    }
     dialog.showModal();
+}
 
-    buttons[0].addEventListener('click', () => {
-        dialog.close();
-        alert('You have declined the permissions. Some features may not work properly.');
-    });
+function handleDialogButtons(bool) {
+    console.log(bool)
+    const dialog = document.querySelector('dialog');
+    const buttons = dialog.querySelectorAll('button');
 
-    buttons[1].addEventListener('click', () => {
+    if (bool) {
         dialog.close();
         alert('Showing permissions...');
-    });
+        localStorage.setItem('permissionsGranted', 'true');
+    } else {
+        dialog.close();
+        alert('You have declined the permissions. Some features may not work properly.');
+    }
 }
 
 function handleLikes() {
