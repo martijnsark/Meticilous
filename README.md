@@ -2,6 +2,7 @@
 
 ## Meticilous is a student project to show a dystopian short form video content app/website, and is only meant for educational purposes.
 
-icons taken from Flaticon and Material Design.
+Setting icon taken from Flaticon.
 Flaticon: https://www.flaticon.com/
-Material Design: https://fonts.google.com/icons
+
+Material Design and other icons taken from: https://fonts.google.com/icons
