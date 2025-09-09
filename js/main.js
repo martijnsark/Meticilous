@@ -78,7 +78,7 @@ function handleSharing() {
                 const videoId = videoContainer.id;
                 const siteTitle = 'Meticulous';
 
-                const shareUrl = `${window.location.origin}${window.location.pathname}#${siteTitle}-${videoId}`;
+                const shareUrl = `${window.location.origin}${window.location.pathname}#${videoId}`;
 
                 const shareData = {
                     title: siteTitle,
@@ -110,12 +110,11 @@ function handleSharing() {
 
 function scrollToVideoFromUrl() {
     // Check for a video hash in the URL on page load
-    const hash = window.location.hash.substring(1); // e.g., "Meticulous-video-1"
+    const hash = window.location.hash.substring(1); // e.g., "video-1"
     if (hash) {
         try {
-            // Extract the video ID from the hash
-            const videoId = hash.substring(hash.indexOf('-') + 1); // e.g., "video-1"
-            const videoToScroll = document.getElementById(videoId);
+            // The hash is the video ID
+            const videoToScroll = document.getElementById(hash);
 
             if (videoToScroll) {
                 // Scroll the video's container into view
