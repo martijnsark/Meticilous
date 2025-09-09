@@ -13,8 +13,8 @@
             "type": "image/png"
         }
     ],
-    "scope": "/",
-    "start_url": "/index.html",
+    "scope": "/Meticilous/",
+    "start_url": "/Meticilous/index.html",
     "display": "fullscreen",
     "theme_color": "red",
     "background_color": "black"
