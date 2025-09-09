@@ -4,6 +4,8 @@ function init() {
     console.log('Hello, world!')
     togglePlayPause();
     handleLikes();
+    handleSharing();
+    scrollToVideoFromUrl();
 }
 
 function togglePlayPause() {
@@ -62,4 +64,67 @@ function handleLikes() {
             });
         }
     });
+}
+
+function handleSharing() {
+    const allButtons = document.querySelectorAll('.videoSidebar__button');
+
+    allButtons.forEach(button => {
+        const icon = button.querySelector('.material-icons');
+        // Check if the button is a share button
+        if (icon && icon.textContent.trim() === 'share') {
+            button.addEventListener('click', async () => {
+                const videoContainer = button.closest('.video');
+                const videoId = videoContainer.id;
+                const siteTitle = 'Meticulous';
+
+                const shareUrl = `${window.location.origin}${window.location.pathname}#${siteTitle}-${videoId}`;
+
+                const shareData = {
+                    title: siteTitle,
+                    text: `Check out this video on ${siteTitle}!`,
+                    url: shareUrl,
+                };
+
+                // Use the Web Share API if available
+                if (navigator.share) {
+                    try {
+                        await navigator.share(shareData);
+                        console.log('Video shared successfully');
+                    } catch (err) {
+                        // This can happen if the user cancels the share dialog
+                        console.log('Share failed or canceled:', err.message);
+                    }
+                } else {
+                    // Fallback for browsers that do not support the Web Share API
+                    navigator.clipboard.writeText(shareUrl).then(() => {
+                        alert('Video link copied to clipboard!');
+                    }).catch(err => {
+                        console.error('Failed to copy link: ', err);
+                    });
+                }
+            });
+        }
+    });
+}
+
+function scrollToVideoFromUrl() {
+    // Check for a video hash in the URL on page load
+    const hash = window.location.hash.substring(1); // e.g., "Meticulous-video-1"
+    if (hash) {
+        try {
+            // Extract the video ID from the hash
+            const videoId = hash.substring(hash.indexOf('-') + 1); // e.g., "video-1"
+            const videoToScroll = document.getElementById(videoId);
+
+            if (videoToScroll) {
+                // Scroll the video's container into view
+                videoToScroll.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+        } catch (e) {
+            console.error('Error finding video from URL hash:', e);
+        }
+    }
 }
