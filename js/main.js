@@ -48,6 +48,21 @@ function trackCurrentVideo() {
 }
 
 function handleVideoChange(id) {
+    // pause all videos except the current one
+    const videos = document.querySelectorAll('video');
+    videos.forEach(video => {
+        if (video.closest('.video').id !== id) {
+            video.pause();
+            console.log('pausing', video.closest('.video').id);
+        }
+    });
+    // play the current video
+    const currentVideo = document.getElementById(id).querySelector('video');
+    if (currentVideo.paused) {
+        currentVideo.play();
+        console.log('playing', id);
+    }
+
     if (id === 'video-3') {
         showDialog();
     }
