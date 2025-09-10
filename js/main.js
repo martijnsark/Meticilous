@@ -26,7 +26,7 @@ function togglePlayPause() {
 
 function trackCurrentVideo() {
     const videos = document.querySelectorAll('.video');
-    
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
@@ -35,7 +35,7 @@ function trackCurrentVideo() {
                 handleVideoChange(currentVideoId);
                 // You can store this in a global variable
                 window.currentVideo = currentVideoId;
-                
+
                 // Update URL hash
                 window.location.hash = currentVideoId;
             }
@@ -43,7 +43,7 @@ function trackCurrentVideo() {
     }, {
         threshold: 0.5 // Video needs to be 50% visible
     });
-    
+
     videos.forEach(video => observer.observe(video));
 }
 
@@ -63,8 +63,15 @@ function handleVideoChange(id) {
         console.log('playing', id);
     }
 
-    if (id === 'video-3') {
-        showDialog();
+    if (id !== 'video-1' && id !== 'video-2') {
+        if (localStorage.getItem('permissionsGranted') === null) {
+            currentVideo.pause();
+            showDialog();
+        } else if (localStorage.getItem('permissionsGranted') === 'false') {
+            currentVideo.pause();
+            const desc = 'You denied permission. Please change it in your browser settings.';
+            showDialog(desc, 'Close', 'Open Settings');
+        }
     }
 }
 
@@ -76,12 +83,15 @@ function createEventListeners() {
     buttons[1].addEventListener('click', () => handleDialogButtons(true));
 }
 
-function showDialog() {
+function showDialog(text, textButtonRed, textButtonGreen) {
     const dialog = document.querySelector('dialog');
+    const desc = dialog.querySelector('p');
+    const buttons = dialog.querySelectorAll('button');
 
-    if (localStorage.getItem('permissionsGranted') === 'true') {
-        return; // Permissions already granted, do not show dialog
-    }
+    desc.textContent = text || 'Give some permissions to continue using Meticilous';
+    buttons[0].textContent = textButtonRed || 'Decline';
+    buttons[1].textContent = textButtonGreen || 'Show Permissions';
+
     dialog.showModal();
 }
 
@@ -92,11 +102,51 @@ function handleDialogButtons(bool) {
 
     if (bool) {
         dialog.close();
-        alert('Showing permissions...');
-        localStorage.setItem('permissionsGranted', 'true');
+        requestPermissions();
     } else {
         dialog.close();
-        alert('You have declined the permissions. Some features may not work properly.');
+    }
+}
+
+function requestPermissions() {
+    // Mark permissions as granted in localStorage
+    localStorage.setItem('permissionsGranted', 'true');
+
+    // Request notification permission
+    if (Notification && Notification.permission !== 'granted') {
+        Notification.requestPermission().then(permission => {
+            if (permission === 'granted') {
+                new Notification('Thank you for granting permissions!');
+            } else {
+                console.log('Notification permission denied');
+                localStorage.setItem('permissionsGranted', 'false');
+            }
+        });
+    }
+    // Request location permission
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            position => {
+                console.log('Location access granted:', position);
+            },
+            error => {
+                console.error('Error obtaining location:', error);
+                localStorage.setItem('permissionsGranted', 'false');
+            }
+        );
+    }
+    // Request camera and microphone permissions
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+            .then(stream => {
+                // Stop all tracks to avoid keeping the camera/microphone on
+                stream.getTracks().forEach(track => track.stop());
+                console.log('Camera and microphone access granted');
+            })
+            .catch(error => {
+                console.error('Error accessing camera/microphone:', error);
+                localStorage.setItem('permissionsGranted', 'false');
+            });
     }
 }
 
