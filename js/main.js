@@ -1,12 +1,31 @@
 window.addEventListener('load', init)
 
 function init() {
+    applyVolume();
     createEventListeners();
     trackCurrentVideo();
     togglePlayPause();
     handleLikes();
     handleSharing();
     scrollToVideoFromUrl();
+}
+
+// applies volume to index.html through the local storage from settings.js
+function applyVolume() {
+    const videos = document.querySelectorAll('video');
+    const savedVolume = localStorage.getItem('volumeLevel');
+    // Default to 50% volume if nothing is saved
+    let volumeLevel = 0.5;
+
+    if (savedVolume !== null) {
+        // The <video> volume property is a value between 0.0 and 1.0
+        volumeLevel = parseInt(savedVolume) / 100;
+    }
+
+    // applies the new volume to all videos
+    videos.forEach(video => {
+        video.volume = volumeLevel;
+    });
 }
 
 function togglePlayPause() {
