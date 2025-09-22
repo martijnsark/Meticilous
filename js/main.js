@@ -11,7 +11,7 @@ function init() {
     scrollToVideoFromUrl();
 }
 
-// applies volume to index.html through the local storage from settings.js
+// applies volume to index.php through the local storage from settings.js
 function applyVolume() {
     const videos = document.querySelectorAll('video');
     const savedVolume = localStorage.getItem('volumeLevel');
