@@ -76,13 +76,13 @@
         </a>
     </header>
 
-    <dialog>
-        <p>Give some permissions to continue using Meticilous</p>
-        <div>
-            <button>Decline</button>
-            <button style="background-color: green;"><strong>Show Permissions</strong></button>
-        </div>
-    </dialog>
+<!--    <dialog>-->
+<!--        <p>Give some permissions to continue using Meticilous</p>-->
+<!--        <div>-->
+<!--            <button>Decline</button>-->
+<!--            <button style="background-color: green;"><strong>Show Permissions</strong></button>-->
+<!--        </div>-->
+<!--    </dialog>-->
   
 <div class="app__videos">
     <?php foreach ($videos as $index => $video): ?>
@@ -101,27 +101,19 @@
                     <p>12</p>
                 </div>
 
-                <!-- sidebar -->
-                <div class="videoSidebar">
-                    <div class="videoSidebar__button">
-                        <span class="material-icons"> favorite_border </span>
-                        <p>12</p>
-                    </div>
+                <div class="videoSidebar__button">
+                    <span class="material-icons"> message </span>
+                    <p>23</p>
+                </div>
 
-                    <div class="videoSidebar__button">
-                        <span class="material-icons"> message </span>
-                        <p>23</p>
-                    </div>
+                <div class="videoSidebar__button save-button">
+                    <span class="material-icons"> bookmark_border </span>
+                    <p>Save</p>
+                </div>
 
-                    <div class="videoSidebar__button save-button">
-                        <span class="material-icons"> bookmark_border </span>
-                        <p>Save</p>
-                    </div>
-
-                    <div class="videoSidebar__button">
-                        <span class="material-icons"> share </span>
-                        <p>75</p>
-                    </div>
+                <div class="videoSidebar__button">
+                    <span class="material-icons"> share </span>
+                    <p>75</p>
                 </div>
             </div>
         </div>
