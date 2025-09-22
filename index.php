@@ -64,7 +64,6 @@ $videos = [
 
 shuffle($videos);
 
-
 ?>
     <header class="header">
         <a href="index.php">
@@ -88,8 +87,9 @@ shuffle($videos);
     <?php foreach ($videos as $index => $video): ?>
         <div class="video" id="video-<?php echo $index+1; ?>">
             <video class="video__player"
+                   playsinline
+                   preload="metadata"
                    loop
-                   controls
                    src="https://github.com/martijnsark/Meticilous/raw/refs/heads/main/videos/<?php echo $video; ?>">
             </video>
 
@@ -118,6 +118,7 @@ shuffle($videos);
         </div>
     <?php endforeach; ?>
 </div>
+
 </body>
 
 </html>
