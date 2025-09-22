@@ -9,6 +9,11 @@ function init() {
     handleLikes();
     handleSharing();
     scrollToVideoFromUrl();
+
+    // Add event listener for the new custom popup's close button
+    document.getElementById('close-location-popup').addEventListener('click', () => {
+        document.getElementById('location-popup').classList.add('hidden');
+    });
 }
 
 // applies volume to index.php through the local storage from settings.js
@@ -175,18 +180,22 @@ function requestPermissions() {
 
 //Test code to show the users location when they give permission to their location
 async function fetchAndShowLocation(lat, lon) {
+    const popup = document.getElementById('location-popup');
+    const locationText = document.getElementById('location-text');
+
     try {
         const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
         const data = await response.json();
         if (data && data.display_name) {
-            alert(`You are at: ${data.display_name}`);
+            locationText.textContent = `Location Found: ${data.display_name}`;
         } else {
-            alert('Location determined, but address could not be found.');
+            locationText.textContent = 'Location determined, but address could not be found.';
         }
     } catch (error) {
         console.error('Error fetching address:', error);
-        alert('Could not fetch your location address.');
+        locationText.textContent = 'Could not fetch your location address.';
     }
+    popup.classList.remove('hidden');
 }
 
 function handleLikes() {

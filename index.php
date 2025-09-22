@@ -15,9 +15,9 @@
 
 <body>
 
-<?php
-// list with all video's
-$videos = [
+    <?php
+    // list with all video's
+    $videos = [
         "video1.mp4",
         "video2.mp4",
         "video3.mp4",
@@ -60,11 +60,12 @@ $videos = [
         "video40.mp4",
         "video41.mp4",
         "video42.mp4",
-];
+    ];
 
-shuffle($videos);
+    shuffle($videos);
 
 ?>
+
     <header class="header">
         <a href="index.php">
             <img src="images/logo.png" alt="Meticulous Logo" class="logo">
@@ -82,7 +83,7 @@ shuffle($videos);
             <button style="background-color: green;"><strong>Show Permissions</strong></button>
         </div>
     </dialog>
-
+  
 <div class="app__videos">
     <?php foreach ($videos as $index => $video): ?>
         <div class="video" id="video-<?php echo $index+1; ?>">
@@ -100,24 +101,37 @@ shuffle($videos);
                     <p>12</p>
                 </div>
 
-                <div class="videoSidebar__button">
-                    <span class="material-icons"> message </span>
-                    <p>23</p>
-                </div>
+                <!-- sidebar -->
+                <div class="videoSidebar">
+                    <div class="videoSidebar__button">
+                        <span class="material-icons"> favorite_border </span>
+                        <p>12</p>
+                    </div>
 
-                <div class="videoSidebar__button save-button">
-                    <span class="material-icons"> bookmark_border </span>
-                    <p>Save</p>
-                </div>
+                    <div class="videoSidebar__button">
+                        <span class="material-icons"> message </span>
+                        <p>23</p>
+                    </div>
 
-                <div class="videoSidebar__button">
-                    <span class="material-icons"> share </span>
-                    <p>75</p>
+                    <div class="videoSidebar__button save-button">
+                        <span class="material-icons"> bookmark_border </span>
+                        <p>Save</p>
+                    </div>
+
+                    <div class="videoSidebar__button">
+                        <span class="material-icons"> share </span>
+                        <p>75</p>
+                    </div>
                 </div>
             </div>
         </div>
     <?php endforeach; ?>
 </div>
+
+    <div id="location-popup" class="hidden">
+        <p id="location-text"></p>
+        <button id="close-location-popup">CLOSE</button>
+    </div>
 
 </body>
 
