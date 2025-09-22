@@ -169,6 +169,23 @@ function requestPermissions() {
     }
 }
 
+//Test code to show the users location when they give permission to their location
+async function fetchAndShowLocation(lat, lon) {
+console('ready to test location pop up:', error);
+    try {
+        const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
+        const data = await response.json();
+        if (data && data.display_name) {
+            alert(`You are at: ${data.display_name}`);
+        } else {
+            alert('Location determined, but address could not be found.');
+        }
+    } catch (error) {
+        console.error('Error fetching address:', error);
+        alert('Could not fetch your location address.');
+    }
+}
+
 function handleLikes() {
     const likeButtons = document.querySelectorAll('.videoSidebar__button');
 
