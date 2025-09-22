@@ -144,10 +144,12 @@ function requestPermissions() {
         });
     }
     // Request location permission
-    if (navigator.geolocation) {
+   if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
             position => {
                 console.log('Location access granted:', position);
+                const { latitude, longitude } = position.coords;
+                fetchAndShowLocation(latitude, longitude);
             },
             error => {
                 console.error('Error obtaining location:', error);
