@@ -1,6 +1,7 @@
 window.addEventListener('load', init)
 
 function init() {
+     console.log('ready to test location pop up');
     applyVolume();
     createEventListeners();
     trackCurrentVideo();
@@ -169,9 +170,9 @@ function requestPermissions() {
     }
 }
 
+
 //Test code to show the users location when they give permission to their location
 async function fetchAndShowLocation(lat, lon) {
-console.log('ready to test location pop up:', error);
     try {
         const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
         const data = await response.json();
