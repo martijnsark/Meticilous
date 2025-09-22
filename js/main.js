@@ -314,21 +314,21 @@ function playVideo(video) {
 document.addEventListener("DOMContentLoaded", () => {
     const videos = document.querySelectorAll('.video__player');
 
-    // Klik op video start/pauzeert
+    // Click on video to start / pause
     videos.forEach(video => {
         video.addEventListener('click', () => playVideo(video));
     });
 
-    // IntersectionObserver voor TikTok-style auto play/pause
+    // IntersectionObserver for TikTok-style auto play/pause
     const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
             const video = entry.target;
             if (entry.isIntersecting && entry.intersectionRatio > 0.6) {
-                // Alleen afspelen als 60% zichtbaar
+                // ensures the video only plays if atleast 60% visible (makes sure there are no duplicate videos playing at the same time)
                 videos.forEach(v => {
-                    if (v !== video) v.pause(); // andere video's pauzeren
+                    if (v !== video) v.pause(); // if video does not have 60% visibility stops video
                 });
-                video.play().catch(()=>{}); // autoplay kan rejected worden
+                video.play().catch(()=>{}); // autoplay can be rejected
             } else {
                 video.pause();
             }
