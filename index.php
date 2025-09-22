@@ -94,17 +94,12 @@
                    src="https://github.com/martijnsark/Meticilous/raw/refs/heads/main/videos/<?php echo $video; ?>">
             </video>
 
-            <!-- sidebar -->
-            <div class="videoSidebar">
-                <div class="videoSidebar__button">
-                    <span class="material-icons"> favorite_border </span>
-                    <p>12</p>
-                </div>
-
-                <div class="videoSidebar__button">
-                    <span class="material-icons"> message </span>
-                    <p>23</p>
-                </div>
+                <!-- sidebar -->
+                <div class="videoSidebar">
+                    <div class="videoSidebar__button">
+                        <span class="material-icons"> favorite_border </span>
+                        <p>12</p>
+                    </div>
 
                 <div class="videoSidebar__button save-button">
                     <span class="material-icons"> bookmark_border </span>
