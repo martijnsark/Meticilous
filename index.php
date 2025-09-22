@@ -61,7 +61,7 @@
         "video41.mp4",
         "video42.mp4",
     ];
-
+    // build in php function to randomize the videos in the list
     shuffle($videos);
 
 ?>
@@ -76,21 +76,23 @@
         </a>
     </header>
 
-<!--    <dialog>-->
-<!--        <p>Give some permissions to continue using Meticilous</p>-->
-<!--        <div>-->
-<!--            <button>Decline</button>-->
-<!--            <button style="background-color: green;"><strong>Show Permissions</strong></button>-->
-<!--        </div>-->
-<!--    </dialog>-->
-  
+    <dialog>
+        <p>Give some permissions to continue using Meticilous</p>
+        <div>
+            <button>Decline</button>
+            <button style="background-color: green;"><strong>Show Permissions</strong></button>
+        </div>
+    </dialog>
+
+<!-- main part of the app -->
 <div class="app__videos">
+    <!--  for loop grabbing the video's from the shuffled list  -->
     <?php foreach ($videos as $index => $video): ?>
         <div class="video" id="video-<?php echo $index+1; ?>">
             <video class="video__player"
-                   playsinline
-                   preload="metadata"
-                   loop
+                   playsinline <!-- video has to be played inline in the div -->
+                   preload="metadata" <!-- no whitespace as cover image -->
+                   loop <!-- keeps looping video -->
                    src="https://github.com/martijnsark/Meticilous/raw/refs/heads/main/videos/<?php echo $video; ?>">
             </video>
 
