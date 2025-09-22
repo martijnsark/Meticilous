@@ -115,10 +115,10 @@
     <?php endforeach; ?>
 </div>
 
-    <div id="location-popup" class="hidden">
+    <dialog id="location-popup" class="hidden">
         <p id="location-text"></p>
         <button id="close-location-popup">CLOSE</button>
-    </div>
+    </dialog>
 
 </body>
 
