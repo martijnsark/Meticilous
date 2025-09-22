@@ -3,7 +3,7 @@
 
 // required when working with sessions
 session_start();
-require_once 'includes/database.php';
+require_once 'include/database/credentials.php';
 
 $login = false;
 // Is user logged in?
