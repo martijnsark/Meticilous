@@ -64,7 +64,7 @@
 
     shuffle($videos);
 
-?>
+    ?>
 
     <header class="header">
         <a href="index.php">
