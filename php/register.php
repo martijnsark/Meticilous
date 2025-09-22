@@ -1,6 +1,7 @@
 <?php
+/** @var mysqli $db */
+
 if (isset($_POST['submit'])) {
-    /** @var mysqli $db */
     require_once 'include/database/credentials.php';
     $errors = array();
     // Get form data

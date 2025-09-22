@@ -1,3 +1,18 @@
+<?php
+session_start();
+// Setup connection with database
+require_once 'include/database/credentials.php';
+
+// Check if the user is logged in
+if (!isset($_SESSION['users'])) {
+    header('Location: login.php');
+    exit;
+}
+
+// Get user data from the SESSION
+$email = $_SESSION['email'];
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
