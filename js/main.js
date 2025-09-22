@@ -1,7 +1,7 @@
 window.addEventListener('load', init)
 
 function init() {
-     console.log('ready to test location pop up');
+     console.log('ready to test location pop up take2');
     applyVolume();
     createEventListeners();
     trackCurrentVideo();
