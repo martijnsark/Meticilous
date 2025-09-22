@@ -134,6 +134,53 @@ dialog button {
     right: 10px;
 }
 
+/* Custom Location Popup Styles */
+#location-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 500px;
+    background-color: #1a1a1a;
+    color: white;
+    border: 5px solid crimson;
+    border-radius: 15px;
+    padding: 40px 20px;
+    box-shadow: 0 0 40px rgba(220, 20, 60, 0.5);
+    text-align: center;
+    z-index: 1000;
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+/* Hidden state */
+#location-popup.hidden {
+    display: none;
+}
+
+/* Paragraph location */
+#location-popup p {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0;
+    margin-bottom: 30px;
+    line-height: 1.4;
+    color: #f1f1f1;
+}
+
+/* close button */
+#location-popup button {
+    padding: 15px 35px;
+    font-size: 20px;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: crimson;
+    color: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
 .videoSidebar .material-icons {
     font-size: 28px;
     cursor: pointer;
