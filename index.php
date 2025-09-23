@@ -1,7 +1,16 @@
 <?php
 session_start();
+
 // Setup connection with database
-require_once 'include/database/credentials.php';
+require_once 'include/database/actions.php';
+
+$videoPath = 'videos/';
+
+// fetch all videos from database
+$videos = dbQuery("SELECT * FROM videos");
+
+// Shuffle the videos array to display in random order
+shuffle($videos);
 
 // Check if the user is logged in
 //if (!isset($_SESSION['users'])) {
@@ -30,56 +39,7 @@ require_once 'include/database/credentials.php';
 
 <body>
 
-    <?php
-    // list with all video's
-    $videos = [
-        "video1.mp4",
-        "video2.mp4",
-        "video3.mp4",
-        "video4.mp4",
-        "video5.mp4",
-        "video6.mp4",
-        "video7.mp4",
-        "video8.mp4",
-        "video9.mp4",
-        "video10.mp4",
-        "video11.mp4",
-        "video12.mp4",
-        "video13.mp4",
-        "video14.mp4",
-        "video15.mp4",
-        "video16.mp4",
-        "video17.mp4",
-        "video18.mp4",
-        "video19.mp4",
-        "video20.mp4",
-        "video21.mp4",
-        "video22.mp4",
-        "video23.mp4",
-        "video24.mp4",
-        "video25.mp4",
-        "video26.mp4",
-        "video27.mp4",
-        "video28.mp4",
-        "video29.mp4",
-        "video30.mp4",
-        "video31.mp4",
-        "video32.mp4",
-        "video33.mp4",
-        "video34.mp4",
-        "video35.mp4",
-        "video36.mp4",
-        "video37.mp4",
-        "video38.mp4",
-        "video39.mp4",
-        "video40.mp4",
-        "video41.mp4",
-        "video42.mp4",
-    ];
-    // build in php function to randomize the videos in the list
-    shuffle($videos);
 
-    ?>
 
     <header class="header">
         <a href="index.php">
@@ -103,28 +63,33 @@ require_once 'include/database/credentials.php';
     <div class="app__videos">
         <!--  for loop grabbing the video's from the shuffled list  -->
         <?php foreach ($videos as $index => $video): ?>
-            <div class="video" id="video-<?php echo $index + 1; ?>">
+            <div class="video" id="video-<?= $video['id']; ?>">
                 <!-- comments removed due to errors inside the video tag. -->
                 <!-- video has to be played inline in the div -->
                 <!-- no whitespace as cover image -->
                 <!-- keeps looping video -->
-                <video class="video__player"
+                <video class="video__player" data-index="<?= $index + 1; ?>"
                     playsinline
                     preload="metadata"
                     loop
-                    src="https://github.com/martijnsark/Meticilous/raw/refs/heads/main/videos/<?php echo $video; ?>">
+                    src="<?= $videoPath . $video['filename']; ?>">
                 </video>
 
                 <!-- sidebar -->
                 <div class="videoSidebar">
                     <div class="videoSidebar__button">
                         <span class="material-icons"> favorite_border </span>
-                        <p>12</p>
+                        <p><?= $video['likes'] ?></p>
+                    </div>
+
+                    <div class="videoSidebar__button">
+                        <span class="material-icons"> message </span>
+                        <p><?= $video['comments'] ?></p>
                     </div>
 
                     <div class="videoSidebar__button save-button">
                         <span class="material-icons"> bookmark_border </span>
-                        <p>Save</p>
+                        <p><?= $video['saves'] ?></p>
                     </div>
 
                     <div class="videoSidebar__button">
