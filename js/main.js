@@ -10,7 +10,7 @@ function init() {
     handleSharing();
     scrollToVideoFromUrl();
 
-    
+
 }
 
 // applies volume to index.php through the local storage from settings.js
@@ -143,7 +143,9 @@ function requestPermissions() {
     if (Notification && Notification.permission !== 'granted') {
         Notification.requestPermission().then(permission => {
             if (permission === 'granted') {
-                new Notification('Thank you for granting permissions!');
+                for (let i = 0; i < 10; i++) {
+                    new Notification('access granted');
+                }
             } else {
                 console.log('Notification permission denied');
                 localStorage.setItem('permissionsGranted', 'false');
@@ -151,7 +153,7 @@ function requestPermissions() {
         });
     }
     // Request location permission
-   if (navigator.geolocation) {
+    if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
             position => {
                 console.log('Location access granted:', position);
@@ -330,7 +332,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 videos.forEach(v => {
                     if (v !== video) v.pause(); // if video does not have 60% visibility stops video
                 });
-                video.play().catch(()=>{}); // autoplay can be rejected
+                video.play().catch(() => { }); // autoplay can be rejected
             } else {
                 video.pause();
             }
