@@ -135,10 +135,10 @@ require_once 'include/database/credentials.php';
             <?php endforeach; ?>
             </div>
 
-            <div id="location-popup" class="hidden">
+           <dialog id="location-popup">
                 <p id="location-text"></p>
                 <button id="close-location-popup">CLOSE</button>
-            </div>
+            </dialog>
 
 </body>
 

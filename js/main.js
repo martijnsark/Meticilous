@@ -1,7 +1,7 @@
 window.addEventListener('load', init)
 
 function init() {
-     console.log('ready to test location pop up take2');
+    console.log('ready to test location pop up take3');
     applyVolume();
     createEventListeners();
     trackCurrentVideo();
@@ -10,10 +10,7 @@ function init() {
     handleSharing();
     scrollToVideoFromUrl();
 
-    // Add event listener for the new custom popup's close button
-    document.getElementById('close-location-popup').addEventListener('click', () => {
-        document.getElementById('location-popup').classList.add('hidden');
-    });
+    
 }
 
 // applies volume to index.php through the local storage from settings.js
@@ -106,6 +103,11 @@ function createEventListeners() {
 
     buttons[0].addEventListener('click', () => handleDialogButtons(false));
     buttons[1].addEventListener('click', () => handleDialogButtons(true));
+
+    // Add event listener for the new custom popup's close button
+    document.getElementById('close-location-popup').addEventListener('click', () => {
+        document.getElementById('location-popup').close();
+    });
 }
 
 function showDialog(text, textButtonRed, textButtonGreen) {
@@ -195,7 +197,7 @@ async function fetchAndShowLocation(lat, lon) {
         console.error('Error fetching address:', error);
         locationText.textContent = 'Could not fetch your location address.';
     }
-    popup.classList.remove('hidden');
+    popup.showModal();
 }
 
 function handleLikes() {
