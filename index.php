@@ -128,7 +128,6 @@ shuffle($videos);
                     <p>75</p>
                 </div>
             </div>
-        </div>
     <?php endforeach; ?>
 </div>
 
