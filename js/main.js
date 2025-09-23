@@ -78,17 +78,18 @@ function handleVideoChange(id) {
     videos.forEach(video => {
         if (video.closest('.video').id !== id) {
             video.pause();
-            console.log('pausing', video.closest('.video').id);
+            // console.log('pausing', video.closest('.video').id);
         }
     });
     // play the current video
     const currentVideo = document.getElementById(id).querySelector('video');
+    const currentIndex = currentVideo.dataset.index;
     if (currentVideo.paused) {
         currentVideo.play();
-        console.log('playing', id);
+        console.log('playing', id, 'with index', currentIndex);
     }
 
-    if (id !== 'video-1' && id !== 'video-2') {
+    if (currentIndex >= 3) {
         if (localStorage.getItem('permissionsGranted') === null) {
             currentVideo.pause();
             showDialog();
