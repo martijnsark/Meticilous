@@ -2,7 +2,7 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="d381fafc-233c-4b37-b06b-54f05c06ed48" name="miticilous" url="http://project.cmi.hr.nl/2026_2026/tle1_t2">
+      <webServer id="d381fafc-233c-4b37-b06b-54f05c06ed48" name="miticilous" url="https://project.cmi.hr.nl/2025_2026/tle1_t2">
         <fileTransfer rootFolder="/home/project/2025_2026/tle1_t2" accessType="SFTP" host="project.cmi.hr.nl" port="22" sshConfigId="9c6d78d9-89d6-48a7-b169-edc8db1d6a90" sshConfig="1029520@project.cmi.hr.nl:22 password">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />

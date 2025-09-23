@@ -99,43 +99,43 @@ if (isset($_POST['submit'])) {
     <p><?= $errors['password'] ?? '' ?></p>
 
     <!-- Phone number -->
-    <label for="phone_number">Phone number</label>
-    <input class="input" id="phone_number" type="text" name="phone_number" value="<?= $phoneNumber ?? '' ?>"/>
+    <label hidden for="phone_number">Phone number</label>
+    <input hidden class="input" id="phone_number" type="text" name="phone_number" value="<?= $phoneNumber ?? '' ?>"/>
     <span><i></i></span>
 
     <!-- Postcode -->
-    <label for="postcode">Postcode</label>
-    <input class="input" id="postcode" type="text" name="postcode" value="<?= $postcode ?? '' ?>"/>
+    <label hidden for="postcode">Postcode</label>
+    <input hidden class="input" id="postcode" type="text" name="postcode" value="<?= $postcode ?? '' ?>"/>
     <span><i></i></span>
 
     <!-- Adress -->
-    <label for="adress">Address</label>
-    <input class="input" id="adress" type="text" name="adress" value="<?= $adress ?? '' ?>"/>
+    <label hidden for="adress">Address</label>
+    <input hidden class="input" id="adress" type="text" name="adress" value="<?= $adress ?? '' ?>"/>
     <span><i></i></span>
 
     <!-- Adress number -->
-    <label for="adress_number">Address number</label>
-    <input class="input" id="adress_number" type="text" name="adress_number" value="<?= $adressNumber ?? '' ?>"/>
+    <label hidden for="adress_number">Address number</label>
+    <input hidden class="input" id="adress_number" type="text" name="adress_number" value="<?= $adressNumber ?? '' ?>"/>
     <span><i></i></span>
 
     <!-- City -->
-    <label for="city">City</label>
-    <input class="input" id="city" type="text" name="city" value="<?= $city ?? '' ?>"/>
+    <label hidden for="city">City</label>
+    <input hidden class="input" id="city" type="text" name="city" value="<?= $city ?? '' ?>"/>
     <span><i></i></span>
 
     <!-- Dna -->
-    <label for="dna">dna</label>
-    <input class="input" id="dna" type="text" name="dna" value="<?= $dna ?? '' ?>"/>
+    <label hidden for="dna">dna</label>
+    <input hidden class="input" id="dna" type="text" name="dna" value="<?= $dna ?? '' ?>"/>
     <span><i></i></span>
 
     <!-- Bank number -->
-    <label for="bank_number">bank_number</label>
-    <input class="input" id="bank_number" type="text" name="bank_number" value="<?= $bank_number ?? '' ?>"/>
+    <label hidden for="bank_number">bank_number</label>
+    <input hidden class="input" id="bank_number" type="text" name="bank_number" value="<?= $bank_number ?? '' ?>"/>
     <span><i></i></span>
 
     <!-- Bsn number -->
-    <label for="bsn_number">bsn_number</label>
-    <input class="input" id="bsn_number" type="text" name="bsn_number" value="<?= $bsn_number ?? '' ?>"/>
+    <label hidden for="bsn_number">bsn_number</label>
+    <input hidden class="input" id="bsn_number" type="text" name="bsn_number" value="<?= $bsn_number ?? '' ?>"/>
     <span><i></i></span>
 
     <!-- Submit -->
