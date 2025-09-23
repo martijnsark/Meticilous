@@ -104,10 +104,14 @@ require_once 'include/database/credentials.php';
         <!--  for loop grabbing the video's from the shuffled list  -->
         <?php foreach ($videos as $index => $video): ?>
             <div class="video" id="video-<?php echo $index + 1; ?>">
+                <!-- comments removed due to errors inside the video tag. -->
+                <!-- video has to be played inline in the div -->
+                <!-- no whitespace as cover image -->
+                <!-- keeps looping video -->
                 <video class="video__player"
-                    playsinline <!-- video has to be played inline in the div -->
-                    preload="metadata" <!-- no whitespace as cover image -->
-                    loop <!-- keeps looping video -->
+                    playsinline
+                    preload="metadata"
+                    loop
                     src="https://github.com/martijnsark/Meticilous/raw/refs/heads/main/videos/<?php echo $video; ?>">
                 </video>
 
