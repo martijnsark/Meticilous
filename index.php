@@ -94,7 +94,7 @@ shuffle($videos);
 
                     <div class="videoSidebar__button">
                         <span class="material-icons"> share </span>
-                        <p>75</p>
+                        <p><?= $video['shares'] ?></p>
                     </div>
                 </div>
             <?php endforeach; ?>
