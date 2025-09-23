@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="miticilous" uploadOnCheckin="d381fafc-233c-4b37-b06b-54f05c06ed48" remoteFilesAllowedToDisappearOnAutoupload="false">
+  <component name="PublishConfigData" serverName="miticilous" uploadOnCheckin="d381fafc-233c-4b37-b06b-54f05c06ed48" remoteFilesAllowedToDisappearOnAutoupload="false" confirmBeforeUploading="false">
+    <option name="confirmBeforeUploading" value="false" />
     <serverData>
       <paths name="miticilous">
         <serverdata>

@@ -1,8 +1,8 @@
 <?php
 /** @var mysqli $db */
+require_once '../include/database/credentials.php';
 
 if (isset($_POST['submit'])) {
-    require_once 'include/database/credentials.php';
     $errors = array();
     // Get form data
     $email        = mysqli_escape_string($db, $_POST['email']);
