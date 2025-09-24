@@ -13,10 +13,10 @@ $videos = dbQuery("SELECT * FROM videos");
 shuffle($videos);
 
 // Check if the user is logged in
-if (!isset($_SESSION['user'])) {
-    header('Location: php/login.php');
-    exit;
-}
+//if (!isset($_SESSION['users'])) {
+//    header('Location: php/login.php');
+//    exit;
+//}
 
 // Get user data from the SESSION
 //$email = $_SESSION['email'];
@@ -75,7 +75,7 @@ if (!isset($_SESSION['user'])) {
                     loop
                     src="<?= $videoPath . $video['filename']; ?>">
                 </video>
-``````  ````````````````````
+
                 <!-- sidebar -->
                 <div class="videoSidebar">
                     <div class="videoSidebar__button">
