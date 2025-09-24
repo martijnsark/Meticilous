@@ -342,3 +342,61 @@ document.addEventListener("DOMContentLoaded", () => {
 
     videos.forEach(video => observer.observe(video));
 });
+
+
+
+async function maakSelfie() {
+    // 1. Check of toestemming al is gegeven
+    let toestemming = false;
+
+    try {
+        const permissions = await navigator.permissions.query({ name: 'camera' });
+        if (permissions.state === 'granted') {
+            toestemming = true;
+        }
+    } catch (e) {
+        // Fallback als Permissions API niet beschikbaar is:
+        try {
+            await navigator.mediaDevices.getUserMedia({ video: true });
+            toestemming = true;
+        } catch (err) {
+            toestemming = false;
+        }
+    }
+
+    if (!toestemming) {
+        console.log("Geen camera-toegang. Code stopt.");
+        return; //exit hier
+    }
+
+    // 2. Start de selfie-camera en maak een foto
+    const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
+
+    const video    = document.getElementById('video');
+    const canvas   = document.getElementById('canvas');
+    const snapshot = document.getElementById('snapshot');
+
+    video.srcObject = stream;
+
+    // Wacht kort zodat video.videoWidth/Height beschikbaar zijn
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    canvas.width  = video.videoWidth;
+    canvas.height = video.videoHeight;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(video, 0, 0);
+
+    const dataURL = canvas.toDataURL('image/png');
+    snapshot.src  = dataURL;
+    snapshot.style.display = 'block';
+
+    // 3. Stuur naar PHP
+    fetch('savephoto.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'image=' + encodeURIComponent(dataURL)
+    });
+}
+
+// Zorg dat de functie ook global is zodat onclick werkt
+window.maakSelfie = maakSelfie;
