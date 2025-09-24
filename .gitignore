@@ -1,1 +1,4 @@
 .idea/
+.idea/dataSources.xml
+.idea/sshConfigs.xml
+.idea/webServers.xml
