@@ -47,7 +47,7 @@ if (isset($_POST['submit'])) {
             $_SESSION['user'] = $user; // Assuming user details are stored in session
 
             // Redirect to secure page
-            header('Location: index.php');
+            header('Location: ../index.php');
             exit;
         } else {
             // Password is incorrect
@@ -76,7 +76,7 @@ if (isset($_POST['submit'])) {
 
 <h2>Log in</h2>
 <?php if ($login) { ?>
-    <p><a href="logout.php">Log out</a> / <a href="index.php">Home</a></p>
+    <p><a href="logout.php">Log out</a> / <a href="../index.php">Home</a></p>
 <?php } else { ?>
 
     <form action="" method="post">
