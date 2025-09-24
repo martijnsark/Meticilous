@@ -1,7 +1,7 @@
 CREATE USER 'prj_2025_2026_tle1_t2'@'localhost' IDENTIFIED BY 'leimaoru';
-CREATE DATABASE IF NOT EXISTS `prj_2025_2026_tle1_t2_db` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-GRANT ALL ON `prj_2025_2026_tle1_t2_db`.* TO 'prj_2025_2026_tle1_t2'@'localhost';
-USE `prj_2025_2026_tle1_t2_db`;
+CREATE DATABASE IF NOT EXISTS `prj_2025_2026_tle1_t2` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+GRANT ALL ON `prj_2025_2026_tle1_t2`.* TO 'prj_2025_2026_tle1_t2'@'localhost';
+USE `prj_2025_2026_tle1_t2`;
 
 CREATE TABLE `users`
 (
