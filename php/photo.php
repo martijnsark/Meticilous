@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Selfie maken</title>
-    <script src="../js/camera.js"></script>
+    <script src="../js/main.js"></script>
 </head>
 <body>
 
