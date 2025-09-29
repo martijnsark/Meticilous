@@ -1,0 +1,113 @@
+/* BODY & ALGEMENE STIJL */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: crimson;
+}
+
+body {
+    display: flex;
+    justify-content: center; /* horizontaal centreren */
+    align-items: center;     /* verticaal centreren */
+    min-height: 100vh;
+    font-family: 'Lilita One', cursive;
+
+}
+
+/* WRAPPER */
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+/* CONTAINER VOOR FORM */
+.login-container {
+    background: rgba(0, 0, 0, 0.6); /* zwart transparant kader */
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    color: white;
+
+}
+
+/* LOGO */
+.logo {
+    height: 100px;
+    margin-bottom: 20px;
+}
+
+/* FORM ELEMENTEN */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+form label {
+    text-align: left;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+form input {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.error {
+    color: crimson;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+/* ACTIES */
+.actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 1rem;
+}
+
+.actions button {
+    padding: 10px 18px;
+    background: dimgray;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.actions button:hover {
+    background: crimson;
+}
+
+.actions .or {
+    color: white;
+    font-size: 14px;
+}
+
+.actions .register-link {
+    font-size: 15px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.actions .register-link:hover {
+    text-decoration: underline;
+    color: crimson;
+}
