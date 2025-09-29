@@ -8,14 +8,14 @@ html, body {
 
 body {
     display: flex;
-    justify-content: center; /* horizontaal centreren */
-    align-items: center;     /* verticaal centreren */
+    justify-content: center;
+    align-items: center;
     min-height: 100vh;
     font-family: 'Lilita One', cursive;
 }
 
 /* WRAPPER */
-.login-wrapper {
+.register-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -23,8 +23,8 @@ body {
 }
 
 /* CONTAINER VOOR FORM */
-.login-container {
-    background: rgba(0, 0, 0, 0.6); /* zwart transparant kader */
+.register-container {
+    background: rgba(0, 0, 0, 0.6);
     padding: 30px;
     border-radius: 12px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
@@ -82,9 +82,9 @@ form input {
     font-size: 14px;
 }
 
-/* BUTTONS EN REGISTER-LINK */
+/* BUTTONS EN LOGIN-LINK */
 .actions button,
-.actions .register-button {
+.actions .login-button {
     padding: 10px 18px;
     background: dimgray;
     color: #fff;
@@ -95,11 +95,12 @@ form input {
     font-family: inherit;
     cursor: pointer;
     transition: background 0.3s;
-    text-decoration: none; /* verwijdert underline voor <a> */
+    text-decoration: none;
     display: inline-block;
 }
 
 .actions button:hover,
-.actions .register-button:hover {
+.actions .login-button:hover {
     background: crimson;
 }
+
