@@ -102,8 +102,13 @@ shuffle($videos);
 
            <dialog id="location-popup">
                 <p id="location-text"></p>
-                <button id="close-location-popup">CLOSE</button>
             </dialog>
+
+        <dialog id="deny-popup" class="deny-popup">
+            <p id="deny-text"></p>
+
+        </dialog>
+
 
 </body>
 

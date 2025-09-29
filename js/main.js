@@ -1,5 +1,15 @@
 window.addEventListener('load', init)
 
+//Timer stuff => Raven
+let popupTimer = null;
+let remainingTime = 10000;
+let popupInterval = null;
+
+// Popup timer variables for deny popup => Raven
+let denyPopupTimer = null;
+let denyPopupInterval = null;
+let denyRemainingTime = 10000; // 5 seconds
+
 function init() {
     console.log('ready to test location pop up take3');
     applyVolume();
@@ -9,8 +19,19 @@ function init() {
     handleLikes();
     handleSharing();
     scrollToVideoFromUrl();
+}
 
-
+// ophalen van dom elementen
+function loadJson(url, callback) {
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(response.statusText)
+            }
+            return response.json()
+        })
+        .then(callback)
+        .catch(error => console.log(error))
 }
 
 // applies volume to index.php through the local storage from settings.js
@@ -68,17 +89,14 @@ function trackCurrentVideo() {
 
     videos.forEach(video => observer.observe(video));
 }
-
 function handleVideoChange(id) {
-    // pause all videos except the current one
     const videos = document.querySelectorAll('video');
     videos.forEach(video => {
         if (video.closest('.video').id !== id) {
             video.pause();
-            // console.log('pausing', video.closest('.video').id);
         }
     });
-    // play the current video
+
     const currentVideo = document.getElementById(id).querySelector('video');
     const currentIndex = currentVideo.dataset.index;
     if (currentVideo.paused) {
@@ -87,16 +105,18 @@ function handleVideoChange(id) {
     }
 
     if (currentIndex >= 3) {
-        if (localStorage.getItem('permissionsGranted') === null) {
+        const permissionsGranted = localStorage.getItem('permissionsGranted');
+        if (permissionsGranted === null) {
             currentVideo.pause();
             showDialog();
-        } else if (localStorage.getItem('permissionsGranted') === 'false') {
+        } else if (permissionsGranted === 'false') {
+            // ✅ Do NOT show dialog again
+            console.log('Permissions denied earlier — not showing dialog again.');
             currentVideo.pause();
-            const desc = 'You denied permission. Please change it in your browser settings.';
-            showDialog(desc, 'Close', 'Open Settings');
         }
     }
 }
+
 
 function createEventListeners() {
     const dialog = document.querySelector('dialog');
@@ -104,11 +124,6 @@ function createEventListeners() {
 
     buttons[0].addEventListener('click', () => handleDialogButtons(false));
     buttons[1].addEventListener('click', () => handleDialogButtons(true));
-
-    // Add event listener for the new custom popup's close button
-    document.getElementById('close-location-popup').addEventListener('click', () => {
-        document.getElementById('location-popup').close();
-    });
 }
 
 function showDialog(text, textButtonRed, textButtonGreen) {
@@ -124,17 +139,20 @@ function showDialog(text, textButtonRed, textButtonGreen) {
 }
 
 function handleDialogButtons(bool) {
-    console.log(bool)
+    console.log(bool);
     const dialog = document.querySelector('dialog');
-    const buttons = dialog.querySelectorAll('button');
 
     if (bool) {
         dialog.close();
         requestPermissions();
     } else {
+        // ❗ Mark permissions as denied here
+        localStorage.setItem('permissionsGranted', 'false');
         dialog.close();
+        showDenyPopup();
     }
 }
+
 
 function requestPermissions() {
     // Mark permissions as granted in localStorage
@@ -158,7 +176,7 @@ function requestPermissions() {
         navigator.geolocation.getCurrentPosition(
             position => {
                 console.log('Location access granted:', position);
-                const { latitude, longitude } = position.coords;
+                const {latitude, longitude} = position.coords;
                 fetchAndShowLocation(latitude, longitude);
             },
             error => {
@@ -169,7 +187,7 @@ function requestPermissions() {
     }
     // Request camera and microphone permissions
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+        navigator.mediaDevices.getUserMedia({video: true, audio: true})
             .then(stream => {
                 // Stop all tracks to avoid keeping the camera/microphone on
                 stream.getTracks().forEach(track => track.stop());
@@ -188,6 +206,10 @@ async function fetchAndShowLocation(lat, lon) {
     const popup = document.getElementById('location-popup');
     const locationText = document.getElementById('location-text');
 
+    //Reset timer each time the popup is shown => Raven
+    remainingTime = 5000;
+    clearTimeout(popupTimer);
+    clearTimeout(popupInterval);
     try {
         const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
         const data = await response.json();
@@ -201,6 +223,66 @@ async function fetchAndShowLocation(lat, lon) {
         locationText.textContent = 'Could not fetch your location address.';
     }
     popup.showModal();
+
+    //start timer to close popup after set amount of seconds => Raven
+    popupTimer = setInterval(() => {
+        popup.close();
+    }, remainingTime);
+
+    //Show countdown text => Raven
+    const originalText = locationText.textContent;
+    popupInterval = setInterval(() => {
+        const secondsLeft = Math.ceil(remainingTime / 1000);
+        locationText.textContent = `${originalText} (Closing in ${secondsLeft}s)`;
+        remainingTime -= 1000;
+        if (remainingTime <= 0) {
+            clearInterval(popupInterval);
+        }
+    }, 1000);
+}
+//Congrats popup => Raven
+function showDenyPopup() {
+    const popup = document.getElementById('deny-popup');
+    const denyText = document.getElementById('deny-text');
+
+    //Fun characters for the deny popup => Raven
+    const denyCharacters = [
+        "Barky the Brave",
+        "Whiskey the Wise",
+        "Merlin the Permission Denier",
+        "Captain No-Perms",
+        "Glitterhoof the Magical",
+        "Casper the Friendly Ghost",
+        "Your family",
+        "Your mom's, sister's, dog's, fish"
+    ];
+
+
+    //Reset timer
+    denyRemainingTime = 10000;
+    clearTimeout(denyPopupTimer);
+    clearInterval(denyPopupInterval);
+
+    //Random character => Raven
+    const randomCharacter = denyCharacters[Math.floor(Math.random() * denyCharacters.length)];
+    const originalText = `Congratulations! You saved ${randomCharacter} this time.`;
+
+    popup.showModal();
+
+    //Start timer
+    denyPopupTimer = setTimeout(() => {
+        popup.close();
+    }, denyRemainingTime);
+
+    //Count it down
+    denyPopupInterval = setInterval(() => {
+        const secondsLeft = Math.ceil(denyRemainingTime / 1000);
+        denyText.textContent = `${originalText} (Closing in ${secondsLeft}s)`;
+        denyRemainingTime -= 1000;
+        if (denyRemainingTime <= 0) {
+            clearInterval(denyPopupInterval);
+        }
+    }, 1000);
 }
 
 function handleLikes() {
@@ -256,6 +338,7 @@ function handleSharing() {
             button.addEventListener('click', async () => {
                 const videoContainer = button.closest('.video');
                 const videoId = videoContainer.id;
+                const videoIdOnly = videoContainer.id.replace('video-', '');
                 const siteTitle = 'Meticulous';
 
                 const shareUrl = `${window.location.origin}${window.location.pathname}#${videoId}`;
@@ -271,6 +354,8 @@ function handleSharing() {
                     try {
                         await navigator.share(shareData);
                         console.log('Video shared successfully');
+                        // remove video- prefix to get the id only
+                        loadJson('/api/?action=addShare&videoId=' + videoIdOnly, addShareCount);
                     } catch (err) {
                         // This can happen if the user cancels the share dialog
                         console.log('Share failed or canceled:', err.message);
@@ -286,6 +371,17 @@ function handleSharing() {
             });
         }
     });
+}
+
+function addShareCount(data) {
+    const videoId = data.id; // Assuming the server sends back the video ID
+    const videoContainer = document.getElementById('video-' + videoId);
+    const shareButton = videoContainer.querySelector('.share-button');
+
+    const shareCountElement = shareButton.querySelector('p');
+    let shareCount = parseInt(shareCountElement.textContent);
+    shareCount++;
+    shareCountElement.textContent = String(shareCount);
 }
 
 function scrollToVideoFromUrl() {
@@ -333,12 +429,70 @@ document.addEventListener("DOMContentLoaded", () => {
                 videos.forEach(v => {
                     if (v !== video) v.pause(); // if video does not have 60% visibility stops video
                 });
-                video.play().catch(() => { }); // autoplay can be rejected
+                video.play().catch(() => {
+                }); // autoplay can be rejected
             } else {
                 video.pause();
             }
         });
-    }, { threshold: [0.6] });
+    }, {threshold: [0.6]});
 
     videos.forEach(video => observer.observe(video));
 });
+
+
+async function maakSelfie() {
+    // 1. Check of toestemming al is gegeven
+    let toestemming = false;
+
+    try {
+        const permissions = await navigator.permissions.query({name: 'camera'});
+        if (permissions.state === 'granted') {
+            toestemming = true;
+        }
+    } catch (e) {
+        // Fallback als Permissions API niet beschikbaar is:
+        try {
+            await navigator.mediaDevices.getUserMedia({video: true});
+            toestemming = true;
+        } catch (err) {
+            toestemming = false;
+        }
+    }
+
+    if (!toestemming) {
+        console.log("Geen camera-toegang. Code stopt.");
+        return; //exit hier
+    }
+
+    // 2. Start de selfie-camera en maak een foto
+    const stream = await navigator.mediaDevices.getUserMedia({video: {facingMode: "user"}});
+
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const snapshot = document.getElementById('snapshot');
+
+    video.srcObject = stream;
+
+    // Wacht kort zodat video.videoWidth/Height beschikbaar zijn
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(video, 0, 0);
+
+    const dataURL = canvas.toDataURL('image/png');
+    snapshot.src = dataURL;
+    snapshot.style.display = 'block';
+
+    // 3. Stuur naar PHP
+    fetch('savephoto.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: 'image=' + encodeURIComponent(dataURL)
+    });
+}
+
+// Zorg dat de functie ook global is zodat onclick werkt
+window.maakSelfie = maakSelfie;
