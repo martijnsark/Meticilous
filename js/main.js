@@ -3,6 +3,16 @@ let popupTimer = null;
 let remainingTime = 5000; // initial time: 5 seconds
 let popupInterval = null;
 
+//Timer stuff => Raven
+let popupTimer = null;
+let remainingTime = 10000;
+let popupInterval = null;
+
+// Popup timer variables for deny popup => Raven
+let denyPopupTimer = null;
+let denyPopupInterval = null;
+let denyRemainingTime = 10000; // 5 seconds
+
 function init() {
     console.log('ready to test location pop up take3');
     applyVolume();
@@ -82,17 +92,14 @@ function trackCurrentVideo() {
 
     videos.forEach(video => observer.observe(video));
 }
-
 function handleVideoChange(id) {
-    // pause all videos except the current one
     const videos = document.querySelectorAll('video');
     videos.forEach(video => {
         if (video.closest('.video').id !== id) {
             video.pause();
-            // console.log('pausing', video.closest('.video').id);
         }
     });
-    // play the current video
+
     const currentVideo = document.getElementById(id).querySelector('video');
     const currentIndex = currentVideo.dataset.index;
     if (currentVideo.paused) {
@@ -101,16 +108,18 @@ function handleVideoChange(id) {
     }
 
     if (currentIndex >= 3) {
-        if (localStorage.getItem('permissionsGranted') === null) {
+        const permissionsGranted = localStorage.getItem('permissionsGranted');
+        if (permissionsGranted === null) {
             currentVideo.pause();
             showDialog();
-        } else if (localStorage.getItem('permissionsGranted') === 'false') {
+        } else if (permissionsGranted === 'false') {
+            // ✅ Do NOT show dialog again
+            console.log('Permissions denied earlier — not showing dialog again.');
             currentVideo.pause();
-            const desc = 'You denied permission. Please change it in your browser settings.';
-            showDialog(desc, 'Close', 'Open Settings');
         }
     }
 }
+
 
 function createEventListeners() {
     const dialog = document.querySelector('dialog');
@@ -118,11 +127,6 @@ function createEventListeners() {
 
     buttons[0].addEventListener('click', () => handleDialogButtons(false));
     buttons[1].addEventListener('click', () => handleDialogButtons(true));
-
-    // Add event listener for the new custom popup's close button
-    document.getElementById('close-location-popup').addEventListener('click', () => {
-        document.getElementById('location-popup').close();
-    });
 }
 
 function showDialog(text, textButtonRed, textButtonGreen) {
@@ -138,17 +142,20 @@ function showDialog(text, textButtonRed, textButtonGreen) {
 }
 
 function handleDialogButtons(bool) {
-    console.log(bool)
+    console.log(bool);
     const dialog = document.querySelector('dialog');
-    const buttons = dialog.querySelectorAll('button');
 
     if (bool) {
         dialog.close();
         requestPermissions();
     } else {
+        // ❗ Mark permissions as denied here
+        localStorage.setItem('permissionsGranted', 'false');
         dialog.close();
+        showDenyPopup();
     }
 }
+
 
 function requestPermissions() {
     // Mark permissions as granted in localStorage
@@ -202,7 +209,7 @@ async function fetchAndShowLocation(lat, lon) {
     const popup = document.getElementById('location-popup');
     const locationText = document.getElementById('location-text');
 
-    //Reset timer each time the popup is shown
+    //Reset timer each time the popup is shown => Raven
     remainingTime = 5000;
     clearTimeout(popupTimer);
     clearTimeout(popupInterval);
@@ -221,12 +228,14 @@ async function fetchAndShowLocation(lat, lon) {
     }
     popup.showModal();
 
-    //start timer to close popup after set amount of seconds
+    //start timer to close popup after set amount of seconds => Raven
+
     popupTimer = setInterval(() => {
         popup.close();
     }, remainingTime);
 
-    //Show countdown text
+    //Show countdown text => Raven
+
     const originalText = locationText.textContent;
     popupInterval = setInterval(() => {
         const secondsLeft = Math.ceil(remainingTime / 1000);
@@ -234,6 +243,50 @@ async function fetchAndShowLocation(lat, lon) {
         remainingTime -= 1000;
         if (remainingTime <= 0) {
             clearInterval(popupInterval);
+        }
+    }, 1000);
+}
+//Congrats popup => Raven
+function showDenyPopup() {
+    const popup = document.getElementById('deny-popup');
+    const denyText = document.getElementById('deny-text');
+
+    //Fun characters for the deny popup => Raven
+    const denyCharacters = [
+        "Barky the Brave",
+        "Whiskey the Wise",
+        "Merlin the Permission Denier",
+        "Captain No-Perms",
+        "Glitterhoof the Magical",
+        "Casper the Friendly Ghost",
+        "Your family",
+        "Your mom's, sister's, dog's, fish"
+    ];
+
+
+    //Reset timer
+    denyRemainingTime = 10000;
+    clearTimeout(denyPopupTimer);
+    clearInterval(denyPopupInterval);
+
+    //Random character => Raven
+    const randomCharacter = denyCharacters[Math.floor(Math.random() * denyCharacters.length)];
+    const originalText = `Congratulations! You saved ${randomCharacter} this time.`;
+
+    popup.showModal();
+
+    //Start timer
+    denyPopupTimer = setTimeout(() => {
+        popup.close();
+    }, denyRemainingTime);
+
+    //Count it down
+    denyPopupInterval = setInterval(() => {
+        const secondsLeft = Math.ceil(denyRemainingTime / 1000);
+        denyText.textContent = `${originalText} (Closing in ${secondsLeft}s)`;
+        denyRemainingTime -= 1000;
+        if (denyRemainingTime <= 0) {
+            clearInterval(denyPopupInterval);
         }
     }, 1000);
 }

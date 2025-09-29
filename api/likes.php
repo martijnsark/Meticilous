@@ -15,6 +15,14 @@ function handleAddLike($videoId, $user): bool
     include_once '../include/database/credentials.php';
     $userId = $user['id'];
     $videoId = mysqli_real_escape_string($db, $videoId);
+    // Prevent duplicate likes
+    $checkQuery = "SELECT id FROM likes WHERE user_id = $userId AND target_type = 'video' AND target_id = $videoId";
+    $checkResult = mysqli_query($db, $checkQuery);
+    if ($checkResult && mysqli_num_rows($checkResult) > 0) {
+        echo json_encode(['status' => 'error', 'message' => 'Already liked']);
+        mysqli_close($db);
+        return false;
+    }
     $query = "INSERT INTO likes (user_id, target_type, target_id) VALUES ($userId, 'video', $videoId)";
     $result = mysqli_query($db, $query);
     $affectedRows = mysqli_affected_rows($db);
