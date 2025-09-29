@@ -11,11 +11,11 @@ $user = $_SESSION['user'] ?? null;
 switch ($action) {
     case 'addLike':
         include_once 'likes.php';
-        handleAddLike($videoId);
+        handleAddLike($videoId, $user);
         break;
     case 'removeLike':
         include_once 'likes.php';
-        handleRemoveLike($videoId);
+        handleRemoveLike($videoId, $user);
         break;
     case 'addShare':
         include_once 'shares.php';
