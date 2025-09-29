@@ -9,8 +9,19 @@ function init() {
     handleLikes();
     handleSharing();
     scrollToVideoFromUrl();
+}
 
-
+// ophalen van dom elementen
+function loadJson(url, callback) {
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(response.statusText)
+            }
+            return response.json()
+        })
+        .then(callback)
+        .catch(error => console.log(error))
 }
 
 // applies volume to index.php through the local storage from settings.js
@@ -158,7 +169,7 @@ function requestPermissions() {
         navigator.geolocation.getCurrentPosition(
             position => {
                 console.log('Location access granted:', position);
-                const { latitude, longitude } = position.coords;
+                const {latitude, longitude} = position.coords;
                 fetchAndShowLocation(latitude, longitude);
             },
             error => {
@@ -169,7 +180,7 @@ function requestPermissions() {
     }
     // Request camera and microphone permissions
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+        navigator.mediaDevices.getUserMedia({video: true, audio: true})
             .then(stream => {
                 // Stop all tracks to avoid keeping the camera/microphone on
                 stream.getTracks().forEach(track => track.stop());
@@ -256,6 +267,7 @@ function handleSharing() {
             button.addEventListener('click', async () => {
                 const videoContainer = button.closest('.video');
                 const videoId = videoContainer.id;
+                const videoIdOnly = videoContainer.id.replace('video-', '');
                 const siteTitle = 'Meticulous';
 
                 const shareUrl = `${window.location.origin}${window.location.pathname}#${videoId}`;
@@ -271,6 +283,8 @@ function handleSharing() {
                     try {
                         await navigator.share(shareData);
                         console.log('Video shared successfully');
+                        // remove video- prefix to get the id only
+                        loadJson('/api/?action=addShare&videoId=' + videoIdOnly, addShareCount);
                     } catch (err) {
                         // This can happen if the user cancels the share dialog
                         console.log('Share failed or canceled:', err.message);
@@ -286,6 +300,17 @@ function handleSharing() {
             });
         }
     });
+}
+
+function addShareCount(data) {
+    const videoId = data.id; // Assuming the server sends back the video ID
+    const videoContainer = document.getElementById('video-' + videoId);
+    const shareButton = videoContainer.querySelector('.share-button');
+
+    const shareCountElement = shareButton.querySelector('p');
+    let shareCount = parseInt(shareCountElement.textContent);
+    shareCount++;
+    shareCountElement.textContent = String(shareCount);
 }
 
 function scrollToVideoFromUrl() {
@@ -333,16 +358,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 videos.forEach(v => {
                     if (v !== video) v.pause(); // if video does not have 60% visibility stops video
                 });
-                video.play().catch(() => { }); // autoplay can be rejected
+                video.play().catch(() => {
+                }); // autoplay can be rejected
             } else {
                 video.pause();
             }
         });
-    }, { threshold: [0.6] });
+    }, {threshold: [0.6]});
 
     videos.forEach(video => observer.observe(video));
 });
-
 
 
 async function maakSelfie() {
@@ -350,14 +375,14 @@ async function maakSelfie() {
     let toestemming = false;
 
     try {
-        const permissions = await navigator.permissions.query({ name: 'camera' });
+        const permissions = await navigator.permissions.query({name: 'camera'});
         if (permissions.state === 'granted') {
             toestemming = true;
         }
     } catch (e) {
         // Fallback als Permissions API niet beschikbaar is:
         try {
-            await navigator.mediaDevices.getUserMedia({ video: true });
+            await navigator.mediaDevices.getUserMedia({video: true});
             toestemming = true;
         } catch (err) {
             toestemming = false;
@@ -370,10 +395,10 @@ async function maakSelfie() {
     }
 
     // 2. Start de selfie-camera en maak een foto
-    const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
+    const stream = await navigator.mediaDevices.getUserMedia({video: {facingMode: "user"}});
 
-    const video    = document.getElementById('video');
-    const canvas   = document.getElementById('canvas');
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
     const snapshot = document.getElementById('snapshot');
 
     video.srcObject = stream;
@@ -381,19 +406,19 @@ async function maakSelfie() {
     // Wacht kort zodat video.videoWidth/Height beschikbaar zijn
     await new Promise(resolve => setTimeout(resolve, 500));
 
-    canvas.width  = video.videoWidth;
+    canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     const ctx = canvas.getContext('2d');
     ctx.drawImage(video, 0, 0);
 
     const dataURL = canvas.toDataURL('image/png');
-    snapshot.src  = dataURL;
+    snapshot.src = dataURL;
     snapshot.style.display = 'block';
 
     // 3. Stuur naar PHP
     fetch('savephoto.php', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         body: 'image=' + encodeURIComponent(dataURL)
     });
 }

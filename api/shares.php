@@ -1,17 +1,17 @@
 <?php
-$action = $_GET['action'] ?? '';
-header('Content-Type: application/json');
+//$action = $_GET['action'] ?? '';
+//header('Content-Type: application/json');
 
-// Route the request based on the action parameter
-switch ($action) {
-    case 'addShare':
-        $videoId = $_GET['videoId'] ?? '';
-        handleAddShare($videoId);
-        break;
-    default:
-        echo json_encode(['status' => 'error', 'message' => 'Invalid action']);
-        break;
-}
+//// Route the request based on the action parameter
+//switch ($action) {
+//    case 'addShare':
+//        $videoId = $_GET['videoId'] ?? '';
+//        handleAddShare($videoId);
+//        break;
+//    default:
+//        echo json_encode(['status' => 'error', 'message' => 'Invalid action']);
+//        break;
+//}
 
 // Function to handle adding a share to a video
 function handleAddShare($videoId): bool
@@ -27,12 +27,12 @@ function handleAddShare($videoId): bool
     $query = "UPDATE videos SET shares = shares + 1 WHERE id = $videoId";
     $result = mysqli_query($db, $query);
     $affectedRows = mysqli_affected_rows($db);
-    if ($affectedRows == !1) {
+    if (!$result && !$affectedRows) {
         echo json_encode(['status' => 'error', 'message' => 'Failed to add share']);
         return false;
     }
     mysqli_close($db);
 
-    echo json_encode(['status' => 'success', 'message' => 'Share added successfully']);
+    echo json_encode(['status' => 'success', 'message' => 'Share added successfully', 'id' => $videoId]);
     return true;
 }

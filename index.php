@@ -95,7 +95,7 @@ shuffle($videos);
                 <p><?= $video['saves'] ?></p>
             </div>
 
-            <div class="videoSidebar__button">
+            <div class="videoSidebar__button share-button">
                 <span class="material-icons"> share </span>
                 <p><?= $video['shares'] ?></p>
             </div>
