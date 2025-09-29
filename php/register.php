@@ -5,19 +5,19 @@ require_once '../include/database/credentials.php';
 if (isset($_POST['submit'])) {
     $errors = array();
     // Get form data
-    $email = mysqli_escape_string($db, $_POST['email']);
-    $username = mysqli_escape_string($db, $_POST['username']);
-    $firstName = mysqli_escape_string($db, $_POST['first_name']);
-    $lastName = mysqli_escape_string($db, $_POST['last_name']);
-    $password = mysqli_escape_string($db, $_POST['password']);
-    $phoneNumber = mysqli_escape_string($db, $_POST['phone_number']);
-    $postcode = mysqli_escape_string($db, $_POST['postcode']);
-    $address = mysqli_escape_string($db, $_POST['adress']);
-    $addressNumber = mysqli_escape_string($db, $_POST['adress_number']);
-    $city = mysqli_escape_string($db, $_POST['city']);
-    $dna = mysqli_escape_string($db, $_POST['dna']);
-    $bank_number = mysqli_escape_string($db, $_POST['bank_number']);
-    $bsn_number = mysqli_escape_string($db, $_POST['bsn_number']);
+    $email        = mysqli_escape_string($db, $_POST['email']);
+    $firstName    = mysqli_escape_string($db, $_POST['first_name']);
+    $lastName     = mysqli_escape_string($db, $_POST['last_name']);
+    $password     = mysqli_escape_string($db, $_POST['password']);
+    $phoneNumber  = mysqli_escape_string($db, $_POST['phone_number']);
+    $postcode     = mysqli_escape_string($db, $_POST['postcode']);
+    $address       = mysqli_escape_string($db, $_POST['address']);
+    $addressNumber = mysqli_escape_string($db, $_POST['address_number']);
+    $city         = mysqli_escape_string($db, $_POST['city']);
+    $dna          = mysqli_escape_string($db, $_POST['dna']);
+    $bank_number  = mysqli_escape_string($db, $_POST['bank_number']);
+    $bsn_number   = mysqli_escape_string($db, $_POST['bsn_number']);
+    $username     = strtolower($firstName . ' ' . $lastName);
 
     // Server-side validation
     if ($email == "") {
@@ -49,23 +49,24 @@ if (isset($_POST['submit'])) {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         // store the new user in the database.
         $insertQuery = "INSERT INTO `users`
-            (`email`, `username`, `password`, `first_name`, `last_name`,
+            (`email`, `password`, `first_name`, `last_name`,
              `phone_number`, `postcode`, `address`, `address_number`,
-             `city`, `dna`, `bank_number`, `bsn_number`) 
-            VALUES ('$email','$username','$hashedPassword','$firstName','$lastName',
-                    " . ($phoneNumber !== '' ? "'$phoneNumber'" : "NULL") . ",
-                    " . ($postcode !== '' ? "'$postcode'" : "NULL") . ",
-                    " . ($address !== '' ? "'$address'" : "NULL") . ",
-                    " . ($addressNumber !== '' ? "'$addressNumber'" : "NULL") . ",
-                    " . ($city !== '' ? "'$city'" : "NULL") . ",
-                    " . ($dna !== '' ? "'$dna'" : "NULL") . ",
-                    " . ($bank_number !== '' ? "'$bank_number'" : "NULL") . ",
-                    " . ($bsn_number !== '' ? "'$bsn_number'" : "NULL") . "
-                    )";
+             `city`, `dna`, `bank_number`, `bsn_number`, `username`)
+            VALUES ('$email','$hashedPassword','$firstName','$lastName',
+                " . ($phoneNumber  !== '' ? "'$phoneNumber'"  : "NULL") . ",
+                " . ($postcode     !== '' ? "'$postcode'"     : "NULL") . ",
+                " . ($address      !== '' ? "'$address'"      : "NULL") . ",
+                " . ($addressNumber !== '' ? "'$addressNumber'" : "NULL") . ",
+                " . ($city         !== '' ? "'$city'"         : "NULL") . ",
+                " . ($dna          !== '' ? "'$dna'"          : "NULL") . ",
+                " . ($bank_number  !== '' ? "'$bank_number'"  : "NULL") . ",
+                " . ($bsn_number   !== '' ? "'$bsn_number'"   : "NULL") . ",
+                '$username' 
+            )";
 
         if (mysqli_query($db, $insertQuery)) {
             // Redirect to login page
-            header('location: login.php');
+            header('Location: login.php');
             // Exit the code
             exit;
         }
@@ -126,14 +127,14 @@ if (isset($_POST['submit'])) {
     <input hidden class="input" id="postcode" type="text" name="postcode" value="<?= $postcode ?? '' ?>"/>
     <span><i></i></span>
 
-    <!-- Adress -->
-    <label hidden for="adress">Address</label>
-    <input hidden class="input" id="adress" type="text" name="adress" value="<?= $adress ?? '' ?>"/>
+    <!-- Address -->
+    <label hidden for="address">Address</label>
+    <input hidden class="input" id="address" type="text" name="address" value="<?= $address ?? '' ?>"/>
     <span><i></i></span>
 
-    <!-- Adress number -->
-    <label hidden for="adress_number">Address number</label>
-    <input hidden class="input" id="adress_number" type="text" name="adress_number" value="<?= $adressNumber ?? '' ?>"/>
+    <!-- Address number -->
+    <label hidden for="address_number">Address number</label>
+    <input hidden class="input" id="address_number" type="text" name="address_number" value="<?= $addressNumber ?? '' ?>"/>
     <span><i></i></span>
 
     <!-- City -->

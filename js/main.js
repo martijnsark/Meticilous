@@ -1,4 +1,7 @@
 window.addEventListener('load', init)
+let popupTimer = null;
+let remainingTime = 5000; // initial time: 5 seconds
+let popupInterval = null;
 
 function init() {
     console.log('ready to test location pop up take3');
@@ -199,6 +202,11 @@ async function fetchAndShowLocation(lat, lon) {
     const popup = document.getElementById('location-popup');
     const locationText = document.getElementById('location-text');
 
+    //Reset timer each time the popup is shown
+    remainingTime = 5000;
+    clearTimeout(popupTimer);
+    clearTimeout(popupInterval);
+
     try {
         const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
         const data = await response.json();
@@ -212,6 +220,22 @@ async function fetchAndShowLocation(lat, lon) {
         locationText.textContent = 'Could not fetch your location address.';
     }
     popup.showModal();
+
+    //start timer to close popup after set amount of seconds
+    popupTimer = setInterval(() => {
+        popup.close();
+    }, remainingTime);
+
+    //Show countdown text
+    const originalText = locationText.textContent;
+    popupInterval = setInterval(() => {
+        const secondsLeft = Math.ceil(remainingTime / 1000);
+        locationText.textContent = `${originalText} (Closing in ${secondsLeft}s)`;
+        remainingTime -= 1000;
+        if (remainingTime <= 0) {
+            clearInterval(popupInterval);
+        }
+    }, 1000);
 }
 
 function handleLikes() {
