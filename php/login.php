@@ -80,7 +80,6 @@ if (isset($_POST['submit'])) {
 <div class="login-wrapper">
     <div class="login-container">
         <img src="/images/logo.png" alt="Logo" class="logo">
-
         <h2>Log in</h2>
 
         <?php if ($login) { ?>
@@ -109,7 +108,7 @@ if (isset($_POST['submit'])) {
                 <div class="actions">
                     <button type="submit" name="submit">Log in</button>
                     <span class="or">or</span>
-                    <a class="register-link" href="register.php">Register</a>
+                    <a class="register-button" href="register.php">Register</a>
                 </div>
 
             </form>
@@ -117,6 +116,5 @@ if (isset($_POST['submit'])) {
         <?php } ?>
     </div>
 </div>
-
 </body>
 </html>
