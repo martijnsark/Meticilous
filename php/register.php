@@ -5,24 +5,36 @@ require_once '../include/database/credentials.php';
 if (isset($_POST['submit'])) {
     $errors = array();
     // Get form data
-    $email        = mysqli_escape_string($db, $_POST['email']);
-    $firstName    = mysqli_escape_string($db, $_POST['first_name']);
-    $lastName     = mysqli_escape_string($db, $_POST['last_name']);
-    $password     = mysqli_escape_string($db, $_POST['password']);
-    $phoneNumber  = mysqli_escape_string($db, $_POST['phone_number']);
-    $postcode     = mysqli_escape_string($db, $_POST['postcode']);
-    $adress       = mysqli_escape_string($db, $_POST['adress']);
-    $adressNumber = mysqli_escape_string($db, $_POST['adress_number']);
-    $city         = mysqli_escape_string($db, $_POST['city']);
-    $dna          = mysqli_escape_string($db, $_POST['dna']);
-    $bank_number  = mysqli_escape_string($db, $_POST['bank_number']);
-    $bsn_number   = mysqli_escape_string($db, $_POST['bsn_number']);
+    $email = mysqli_escape_string($db, $_POST['email']);
+    $username = mysqli_escape_string($db, $_POST['username']);
+    $firstName = mysqli_escape_string($db, $_POST['first_name']);
+    $lastName = mysqli_escape_string($db, $_POST['last_name']);
+    $password = mysqli_escape_string($db, $_POST['password']);
+    $phoneNumber = mysqli_escape_string($db, $_POST['phone_number']);
+    $postcode = mysqli_escape_string($db, $_POST['postcode']);
+    $address = mysqli_escape_string($db, $_POST['adress']);
+    $addressNumber = mysqli_escape_string($db, $_POST['adress_number']);
+    $city = mysqli_escape_string($db, $_POST['city']);
+    $dna = mysqli_escape_string($db, $_POST['dna']);
+    $bank_number = mysqli_escape_string($db, $_POST['bank_number']);
+    $bsn_number = mysqli_escape_string($db, $_POST['bsn_number']);
 
     // Server-side validation
-    if ($email == "")     { $errors['email']      = "Please enter an email."; }
-    if ($firstName == "") { $errors['first_name'] = "Please enter a firstname."; }
-    if ($lastName == "")  { $errors['last_name']  = "Please enter a lastname."; }
-    if ($password == "")  { $errors['password']   = "Please enter a password."; }
+    if ($email == "") {
+        $errors['email'] = "Please enter an email.";
+    }
+    if ($username == "") {
+        $errors['username'] = "Please enter a username.";
+    }
+    if ($firstName == "") {
+        $errors['first_name'] = "Please enter a firstname.";
+    }
+    if ($lastName == "") {
+        $errors['last_name'] = "Please enter a lastname.";
+    }
+    if ($password == "") {
+        $errors['password'] = "Please enter a password.";
+    }
 
     // If data valid
     // Check if the email is already in use
@@ -37,18 +49,18 @@ if (isset($_POST['submit'])) {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         // store the new user in the database.
         $insertQuery = "INSERT INTO `users`
-            (`id`, `email`, `password`, `first_name`, `last_name`,
-             `phone_number`, `postcode`, `adress`, `adress_number`,
+            (`email`, `username`, `password`, `first_name`, `last_name`,
+             `phone_number`, `postcode`, `address`, `address_number`,
              `city`, `dna`, `bank_number`, `bsn_number`) 
-            VALUES ('','$email','$hashedPassword','$firstName','$lastName',
-                    " . ($phoneNumber  !== '' ? "'$phoneNumber'"  : "NULL") . ",
-                    " . ($postcode     !== '' ? "'$postcode'"     : "NULL") . ",
-                    " . ($adress       !== '' ? "'$adress'"       : "NULL") . ",
-                    " . ($adressNumber !== '' ? "'$adressNumber'" : "NULL") . ",
-                    " . ($city         !== '' ? "'$city'"         : "NULL") . ",
-                    " . ($dna          !== '' ? "'$dna'"          : "NULL") . ",
-                    " . ($bank_number  !== '' ? "'$bank_number'"  : "NULL") . ",
-                    " . ($bsn_number   !== '' ? "'$bsn_number'"   : "NULL") . "
+            VALUES ('$email','$username','$hashedPassword','$firstName','$lastName',
+                    " . ($phoneNumber !== '' ? "'$phoneNumber'" : "NULL") . ",
+                    " . ($postcode !== '' ? "'$postcode'" : "NULL") . ",
+                    " . ($address !== '' ? "'$address'" : "NULL") . ",
+                    " . ($addressNumber !== '' ? "'$addressNumber'" : "NULL") . ",
+                    " . ($city !== '' ? "'$city'" : "NULL") . ",
+                    " . ($dna !== '' ? "'$dna'" : "NULL") . ",
+                    " . ($bank_number !== '' ? "'$bank_number'" : "NULL") . ",
+                    " . ($bsn_number !== '' ? "'$bsn_number'" : "NULL") . "
                     )";
 
         if (mysqli_query($db, $insertQuery)) {
@@ -91,6 +103,12 @@ if (isset($_POST['submit'])) {
     <input class="input" id="email" type="text" name="email" value="<?= $email ?? '' ?>"/>
     <span><i></i></span>
     <p><?= $errors['email'] ?? '' ?></p>
+
+    <!-- Username -->
+    <label for="username">Username*</label>
+    <input class="input" id="username" type="text" name="username" value="<?= $username ?? '' ?>"/>
+    <span><i></i></span>
+    <p><?= $errors['username'] ?? '' ?></p>
 
     <!-- Password -->
     <label for="password">Password*</label>
