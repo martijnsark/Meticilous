@@ -1,5 +1,7 @@
 <?php
-include_once 'include/database/credentials.php';
+
+/** @var mysqli $db */
+//executes a select query only and returns the results as an associative array
 function dbQuery($query): array
 {
     global $db;
@@ -21,3 +23,9 @@ function dbQuery($query): array
 
     return $results ?? [];
 }
+
+
+// test
+//include_once 'credentials.php';
+//$test = dbQuery("UPDATE videos SET shares = shares + 1 WHERE id = 1");
+//print_r($test);

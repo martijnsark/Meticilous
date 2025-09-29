@@ -1,4 +1,7 @@
 window.addEventListener('load', init)
+let popupTimer = null;
+let remainingTime = 5000; // initial time: 5 seconds
+let popupInterval = null;
 
 //Timer stuff => Raven
 let popupTimer = null;
@@ -210,6 +213,7 @@ async function fetchAndShowLocation(lat, lon) {
     remainingTime = 5000;
     clearTimeout(popupTimer);
     clearTimeout(popupInterval);
+
     try {
         const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
         const data = await response.json();
@@ -225,11 +229,13 @@ async function fetchAndShowLocation(lat, lon) {
     popup.showModal();
 
     //start timer to close popup after set amount of seconds => Raven
+
     popupTimer = setInterval(() => {
         popup.close();
     }, remainingTime);
 
     //Show countdown text => Raven
+
     const originalText = locationText.textContent;
     popupInterval = setInterval(() => {
         const secondsLeft = Math.ceil(remainingTime / 1000);

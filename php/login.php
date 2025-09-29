@@ -47,7 +47,7 @@ if (isset($_POST['submit'])) {
             $_SESSION['user'] = $user; // Assuming user details are stored in session
 
             // Redirect to secure page
-            header('Location: index.php');
+            header('Location: ../index.php');
             exit;
         } else {
             // Password is incorrect
@@ -70,42 +70,51 @@ if (isset($_POST['submit'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <link rel="stylesheet" href="/css/login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Blinker:wght@100;200;300;400;600;700;800;900&family=Lilita+One&family=Press+Start+2P&display=swap" rel="stylesheet">
+
+    <title>Log in/Register Meticilous</title>
 </head>
 <body>
 
-<h2>Log in</h2>
-<?php if ($login) { ?>
-    <p><a href="logout.php">Log out</a> / <a href="index.php">Home</a></p>
-<?php } else { ?>
+<div class="login-wrapper">
+    <div class="login-container">
+        <img src="/images/logo.png" alt="Logo" class="logo">
+        <h2>Log in</h2>
 
-    <form action="" method="post">
+        <?php if ($login) { ?>
+            <p><a href="logout.php">Log out</a> / <a href="index.php">Home</a></p>
+        <?php } else { ?>
 
-        <label for="email">Email</label>
-        <input class="input" id="email" type="text" name="email" value="<?= $email ?? '' ?>" />
-        <span><i></i></span>
-        <p><?= $errors['email'] ?? '' ?></p>
+            <form action="" method="post">
 
-        <label for="password">Password</label>
-        <input class="input" id="password" type="password" name="password"/>
-        <span><i></i></span>
+                <label for="email">E-mail:</label>
+                <input class="input" id="email" type="text" name="email" value="<?= $email ?? '' ?>" />
+                <span><i></i></span>
+                <p class="error"><?= $errors['email'] ?? '' ?></p>
 
-        <?php if(isset($errors['loginFailed'])) { ?>
-            <div>
-                <button class="delete"></button>
-                <?=$errors['loginFailed']?>
-            </div>
+                <label for="password">Password:</label>
+                <input class="input" id="password" type="password" name="password"/>
+                <span><i></i></span>
+
+                <?php if(isset($errors['loginFailed'])) { ?>
+                    <div class="error">
+                        <?=$errors['loginFailed']?>
+                    </div>
+                <?php } ?>
+
+                <p class="error"><?= $errors['password'] ?? '' ?></p>
+
+                <div class="actions">
+                    <button type="submit" name="submit">Log in</button>
+                    <span class="or">or</span>
+                    <a class="register-button" href="register.php">Register</a>
+                </div>
+
+            </form>
+
         <?php } ?>
-
-        <p><?= $errors['password'] ?? '' ?></p>
-
-        <button type="submit" name="submit">Log in</button>
-
-        <a href="register.php">Register</a>
-
-    </form>
-
-<?php } ?>
-
+    </div>
+</div>
 </body>
 </html>
