@@ -47,7 +47,7 @@ if (isset($_POST['submit'])) {
             $_SESSION['user'] = $user; // Assuming user details are stored in session
 
             // Redirect to secure page
-            header('Location: index.php');
+            header('Location: ../index.php');
             exit;
         } else {
             // Password is incorrect
