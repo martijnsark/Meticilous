@@ -55,7 +55,7 @@ if (isset($_POST['submit'])) {
 
         if (mysqli_query($db, $insertQuery)) {
             // Redirect to login page
-            header('location: login.php');
+            header('Location: login.php');
             // Exit the code
             exit;
         }
