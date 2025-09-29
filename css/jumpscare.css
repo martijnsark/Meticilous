@@ -1,0 +1,83 @@
+/* FLASH ANIMATION */
+@keyframes flashBackground {
+    0%, 100% {
+        background-color: crimson;
+    }
+    50% {
+        background-color: #ffba08;
+    }
+}
+
+/* BODY & GENERAL STYLE */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Lilita One', cursive;
+    animation: flashBackground 1.5s infinite ease-in-out;
+}
+
+/* WRAPPER */
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+/* CONTAINER */
+.login-container {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    color: white;
+}
+
+/* LOGO */
+.logo {
+    height: 100px;
+    margin-bottom: 20px;
+}
+
+/* TEXT */
+h1 {
+    margin: 10px 0;
+}
+p {
+    font-size: 16px;
+}
+
+.back-container {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center; /* horizontaal centreren */
+}
+
+.back-button {
+    color: crimson;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    width: 8vh;
+    height: 8vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.back-button .material-icons {
+    font-size: 2rem;
+}
