@@ -20,10 +20,21 @@ if (isset($_POST['submit'])) {
     $username     = strtolower($firstName . ' ' . $lastName);
 
     // Server-side validation
-    if ($email == "")     { $errors['email']      = "Please enter an email."; }
-    if ($firstName == "") { $errors['first_name'] = "Please enter a firstname."; }
-    if ($lastName == "")  { $errors['last_name']  = "Please enter a lastname."; }
-    if ($password == "")  { $errors['password']   = "Please enter a password."; }
+    if ($email == "") {
+        $errors['email'] = "Please enter an email.";
+    }
+    if ($username == "") {
+        $errors['username'] = "Please enter a username.";
+    }
+    if ($firstName == "") {
+        $errors['first_name'] = "Please enter a firstname.";
+    }
+    if ($lastName == "") {
+        $errors['last_name'] = "Please enter a lastname.";
+    }
+    if ($password == "") {
+        $errors['password'] = "Please enter a password.";
+    }
 
     // If data valid
     // Check if the email is already in use
@@ -93,6 +104,12 @@ if (isset($_POST['submit'])) {
     <input class="input" id="email" type="text" name="email" value="<?= $email ?? '' ?>"/>
     <span><i></i></span>
     <p><?= $errors['email'] ?? '' ?></p>
+
+    <!-- Username -->
+    <label for="username">Username*</label>
+    <input class="input" id="username" type="text" name="username" value="<?= $username ?? '' ?>"/>
+    <span><i></i></span>
+    <p><?= $errors['username'] ?? '' ?></p>
 
     <!-- Password -->
     <label for="password">Password*</label>
