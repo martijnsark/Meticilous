@@ -98,6 +98,12 @@ if (!isset($_SESSION['user'])) {
                 <span class="material-icons"> share </span>
                 <p><?= $video['shares'] ?></p>
             </div>
+
+            <div class="videoSidebar__button account-button">
+                <a href="php/account.php">
+                    <span class="material-icons">account_box</span>
+                </a>
+            </div>
         </div>
         <?php endforeach; ?>
     </div>
@@ -107,9 +113,7 @@ if (!isset($_SESSION['user'])) {
 
         <dialog id="deny-popup" class="deny-popup">
             <p id="deny-text"></p>
-
         </dialog>
-
 
         <!-- Elementen voor de selfie-functie -->
         <video id="video" autoplay playsinline style="display:none;"></video>
