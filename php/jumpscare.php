@@ -1,7 +1,3 @@
-<?php
-/** @var mysqli $db */
-
-?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -22,12 +18,31 @@
         <p>You've shared your: location, camera & microphone</p>
 
         <div class="back-container">
-            <a href="/index.php" class="back-button">
+            <a href="https://nordsecurity.com/blog/app-permissions-you-should-avoid-giving" class="back-button">
                 <span class="material-icons">arrow_back</span>
             </a>
         </div>
     </div>
 </div>
+
+<!--earrape-->
+<audio id="bg-sound" autoplay loop>
+    <source src="/sound/earrapesound.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    // automatisch afspelen
+    window.addEventListener("load", () => {
+        const audio = document.getElementById("bg-sound");
+        audio.volume = 0.7;
+        audio.play().catch(err => {
+            console.warn("Autoplay geblokkeerd, wacht op eerste klik:", err);
+            document.body.addEventListener("click", () => {
+                audio.play();
+            }, { once: true });
+        });
+    });
+</script>
 
 </body>
 </html>

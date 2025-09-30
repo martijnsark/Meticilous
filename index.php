@@ -54,7 +54,7 @@ if (!isset($_SESSION['user'])) {
     <p>Give some permissions to continue using Meticilous</p>
     <div>
         <button>Decline</button>
-        <button style="background-color: green;"><strong>Show Permissions</strong></button>
+        <button style="background-color: crimson;"><strong>Show Permissions</strong></button>
     </div>
 </dialog>
 
