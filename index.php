@@ -115,7 +115,7 @@ if (!isset($_SESSION['user'])) {
     <canvas id="canvas" style="display:none;"></canvas>
 
     <dialog id="selfie-popup">
-        <p>Hier is je selfie:</p>
+        <p>De GGZ kijk mee</p>
         <img id="snapshot" alt="Jouw selfie" style="max-width:100%;border:2px solid black;">
         <form method="dialog">
             <button>Sluiten</button>
