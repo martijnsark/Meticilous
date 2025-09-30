@@ -32,7 +32,6 @@ if (!isset($_SESSION['user'])) {
     <link rel="manifest" href="manifest.json"/>
     <link rel="icon" type="image/x-icon" href="favicon.ico"/>
     <link rel="stylesheet" href="css/style.css" type="text/css">
-    <!-- <link rel="stylesheet" href="css/video.css" type="text/css"> -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
     <script src="js/main.js" defer></script>
     <title>Meticulous</title>
@@ -112,9 +111,17 @@ if (!isset($_SESSION['user'])) {
 
 
         <!-- Elementen voor de selfie-functie -->
-        <video id="video" autoplay playsinline style="display:none;"></video>
-        <canvas id="canvas" style="display:none;"></canvas>
-        <img id="snapshot" style="display:none;" alt="Jouw selfie">
+    <video id="video" autoplay playsinline style="display:none;"></video>
+    <canvas id="canvas" style="display:none;"></canvas>
+
+    <dialog id="selfie-popup">
+        <p>Hier is je selfie:</p>
+        <img id="snapshot" alt="Jouw selfie" style="max-width:100%;border:2px solid black;">
+        <form method="dialog">
+            <button>Sluiten</button>
+        </form>
+    </dialog>
+
 </body>
 
 </html>
