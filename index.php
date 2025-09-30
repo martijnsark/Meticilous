@@ -34,7 +34,6 @@ if (!isset($_SESSION['user'])) {
     <!-- <link rel="stylesheet" href="css/video.css" type="text/css"> -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <script src="js/main.js" defer></script>
-    <script src="js/camera.js"></script>
     <title>Meticulous</title>
 </head>
 
@@ -75,7 +74,7 @@ if (!isset($_SESSION['user'])) {
                     loop
                     src="<?= $videoPath . $video['filename']; ?>">
                 </video>
-``````  ````````````````````
+
                 <!-- sidebar -->
                 <div class="videoSidebar">
                     <div class="videoSidebar__button">
@@ -106,6 +105,10 @@ if (!isset($_SESSION['user'])) {
                 <button id="close-location-popup">CLOSE</button>
             </dialog>
 
+        <!-- Elementen voor de selfie-functie -->
+        <video id="video" autoplay playsinline style="display:none;"></video>
+        <canvas id="canvas" style="display:none;"></canvas>
+        <img id="snapshot" style="display:none;" alt="Jouw selfie">
 </body>
 
 </html>

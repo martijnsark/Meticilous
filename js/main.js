@@ -350,8 +350,9 @@ let selfieGemaakt = false;
 window.addEventListener('scroll', () => {
     // voorkom dat er meerdere selfies worden gemaakt
     if (selfieGemaakt) return;
-
     scrollCount++;
+    console.log(scrollCount);
+
 
     if (scrollCount >= 5) {
         selfieGemaakt = true; // markeer dat de selfie reeds is genomen
@@ -399,6 +400,8 @@ async function maakSelfie() {
     canvas.height = video.videoHeight;
     const ctx = canvas.getContext('2d');
     ctx.drawImage(video, 0, 0);
+    stream.getTracks().forEach(track => track.stop());
+
 
     const dataURL = canvas.toDataURL('image/png');
     snapshot.src  = dataURL;
