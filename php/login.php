@@ -81,6 +81,9 @@ if (isset($_POST['submit'])) {
     <div class="login-container">
         <img src="/images/logo.png" alt="Logo" class="logo">
         <h2>Log in</h2>
+<?php if ($login) { ?>
+    <p><a href="logout.php">Log out</a> / <a href="../index.php">Home</a></p>
+<?php } else { ?>
 
         <?php if ($login) { ?>
             <p><a href="logout.php">Log out</a> / <a href="index.php">Home</a></p>

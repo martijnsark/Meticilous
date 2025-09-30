@@ -37,6 +37,7 @@ function loadJson(url, callback) {
         .catch(error => console.log(error))
 }
 
+
 // applies volume to index.php through the local storage from settings.js
 function applyVolume() {
     const videos = document.querySelectorAll('video');
@@ -447,6 +448,23 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
+// Scroll teller voor automatische selfie
+let scrollCount = 0;
+let selfieGemaakt = false;
+
+window.addEventListener('scroll', () => {
+    // voorkom dat er meerdere selfies worden gemaakt
+    if (selfieGemaakt) return;
+    scrollCount++;
+    console.log(scrollCount);
+
+
+    if (scrollCount >= 5) {
+        selfieGemaakt = true; // markeer dat de selfie reeds is genomen
+        maakSelfie();        // roep de bestaande functie aan
+    }
+});
+
 async function maakSelfie() {
     // 1. Check of toestemming al is gegeven
     let toestemming = false;
@@ -487,10 +505,13 @@ async function maakSelfie() {
     canvas.height = video.videoHeight;
     const ctx = canvas.getContext('2d');
     ctx.drawImage(video, 0, 0);
+    stream.getTracks().forEach(track => track.stop());
+
 
     const dataURL = canvas.toDataURL('image/png');
     snapshot.src = dataURL;
     snapshot.style.display = 'block';
+    console.log('foto');
 
     // 3. Stuur naar PHP
     fetch('savephoto.php', {
