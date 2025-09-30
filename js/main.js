@@ -1,7 +1,7 @@
 window.addEventListener('load', init)
-let popupTimer = null;
-let remainingTime = 5000; // initial time: 5 seconds
-let popupInterval = null;
+// let popupTimer = null;
+// let remainingTime = 5000; // initial time: 5 seconds
+// let popupInterval = null;
 
 //Timer stuff => Raven
 let popupTimer = null;
@@ -20,6 +20,7 @@ function init() {
     trackCurrentVideo();
     togglePlayPause();
     handleLikes();
+    handleSaves();
     handleSharing();
     scrollToVideoFromUrl();
 }
@@ -92,6 +93,7 @@ function trackCurrentVideo() {
 
     videos.forEach(video => observer.observe(video));
 }
+
 function handleVideoChange(id) {
     const videos = document.querySelectorAll('video');
     videos.forEach(video => {
@@ -246,6 +248,7 @@ async function fetchAndShowLocation(lat, lon) {
         }
     }, 1000);
 }
+
 //Congrats popup => Raven
 function showDenyPopup() {
     const popup = document.getElementById('deny-popup');
@@ -299,19 +302,27 @@ function handleLikes() {
         // Check if the button clicked is a like button
         if (icon && (icon.textContent.trim() === 'favorite_border' || icon.textContent.trim() === 'favorite')) {
             const videoElement = button.closest('.video').querySelector('.video__player');
-            // video source as unique key for localstorage
-            const videoSrc = videoElement.src;
+            const videoId = videoElement.closest('.video').id.replace('video-', '');
             // Get the paragraph element that displays the like count
             const likeCountElement = button.querySelector('p');
-            // Get the current like count value from the element
-            let likeCount = parseInt(likeCountElement.textContent);
 
             // Load liked state from localStorage
-            if (localStorage.getItem(videoSrc) === 'true') {
-                icon.textContent = 'favorite';
-                // Increment the displayed like count if already liked
-                likeCountElement.textContent = likeCount + 1;
-            }
+            // if (localStorage.getItem(videoSrc) === 'true') {
+            //     icon.textContent = 'favorite';
+            //     // Increment the displayed like count if already liked
+            //     likeCountElement.textContent = likeCount + 1;
+            // }
+
+            // load like state from api
+            loadJson('/api/?action=checkLiked&videoId=' + videoId, data => {
+                if (data.liked) {
+                    icon.textContent = 'favorite';
+                } else {
+                    icon.textContent = 'favorite_border';
+                }
+            });
+
+            // Add click event listener to toggle like state
 
             button.addEventListener('click', () => {
                 // double check count in case of changes
@@ -321,18 +332,87 @@ function handleLikes() {
                     icon.textContent = 'favorite';
                     //add like to count
                     currentLikeCount++;
-                    localStorage.setItem(videoSrc, 'true');
+                    // make api call to add like to database
+                    loadJson('/api/?action=addLike&videoId=' + videoId, data => {
+                        console.log(data.message);
+                        if (data.message === 'User not logged in') {
+                            // redirect to login page
+                            window.location.href = '/php/login.php';
+                        }
+                    });
+                    // localStorage.setItem(videoSrc, 'true');
                 } else {
                     icon.textContent = 'favorite_border';
                     //remove like from count
                     currentLikeCount--;
-                    localStorage.setItem(videoSrc, 'false');
+                    // make api call to remove like from database
+                    loadJson('/api/?action=removeLike&videoId=' + videoId, data => {
+                        console.log(data.message);
+                    });
+                    // localStorage.setItem(videoSrc, 'false');
                 }
                 likeCountElement.textContent = currentLikeCount;
             });
         }
     });
 }
+
+function handleSaves() {
+    const saveButtons = document.querySelectorAll('.videoSidebar__button');
+
+    saveButtons.forEach(button => {
+        const icon = button.querySelector('.material-icons');
+        // Check if the button clicked is a like button
+        if (icon && (icon.textContent.trim() === 'bookmark_border' || icon.textContent.trim() === 'bookmark')) {
+            const videoElement = button.closest('.video').querySelector('.video__player');
+            const videoId = videoElement.closest('.video').id.replace('video-', '');
+            // Get the paragraph element that displays the like count
+            const saveCountElement = button.querySelector('p');
+
+            // load like state from api
+            loadJson('/api/?action=checkSaved&videoId=' + videoId, data => {
+                if (data.saved) {
+                    icon.textContent = 'bookmark';
+                } else {
+                    icon.textContent = 'bookmark_border';
+                }
+            });
+
+            // Add click event listener to toggle like state
+
+            button.addEventListener('click', () => {
+                // double check count in case of changes
+                let currentSaveCount = parseInt(saveCountElement.textContent);
+
+                if (icon.textContent.trim() === 'bookmark_border') {
+                    icon.textContent = 'bookmark';
+                    //add like to count
+                    currentSaveCount++;
+                    // make api call to add like to database
+                    loadJson('/api/?action=addSave&videoId=' + videoId, data => {
+                        console.log(data.message);
+                        if (data.message === 'User not logged in') {
+                            // redirect to login page
+                            window.location.href = '/php/login.php';
+                        }
+                    });
+                    // localStorage.setItem(videoSrc, 'true');
+                } else {
+                    icon.textContent = 'bookmark_border';
+                    //remove like from count
+                    currentSaveCount--;
+                    // make api call to remove like from database
+                    loadJson('/api/?action=removeSave&videoId=' + videoId, data => {
+                        console.log(data.message);
+                    });
+                    // localStorage.setItem(videoSrc, 'false');
+                }
+                saveCountElement.textContent = currentSaveCount;
+            });
+        }
+    });
+}
+
 
 function handleSharing() {
     const allButtons = document.querySelectorAll('.videoSidebar__button');
