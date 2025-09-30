@@ -14,10 +14,10 @@ $videos = dbQuery("SELECT * FROM videos");
 shuffle($videos);
 
 // Check if the user is logged in
-//if (!isset($_SESSION['users'])) {
-//    header('Location: php/login.php');
-//    exit;
-//}
+if (!isset($_SESSION['user'])) {
+    header('Location: php/login.php');
+    exit;
+}
 
 // Get user data from the SESSION
 //$email = $_SESSION['email'];
@@ -35,7 +35,6 @@ shuffle($videos);
     <!-- <link rel="stylesheet" href="css/video.css" type="text/css"> -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
     <script src="js/main.js" defer></script>
-    <script src="js/camera.js"></script>
     <title>Meticulous</title>
 </head>
 
@@ -112,6 +111,10 @@ shuffle($videos);
         </dialog>
 
 
+        <!-- Elementen voor de selfie-functie -->
+        <video id="video" autoplay playsinline style="display:none;"></video>
+        <canvas id="canvas" style="display:none;"></canvas>
+        <img id="snapshot" style="display:none;" alt="Jouw selfie">
 </body>
 
 </html>
