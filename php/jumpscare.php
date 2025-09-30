@@ -25,6 +25,25 @@
     </div>
 </div>
 
+<!--earrape-->
+<audio id="bg-sound" autoplay loop>
+    <source src="/sound/earrapesound.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    // automatisch afspelen
+    window.addEventListener("load", () => {
+        const audio = document.getElementById("bg-sound");
+        audio.volume = 0.7;
+        audio.play().catch(err => {
+            console.warn("Autoplay geblokkeerd, wacht op eerste klik:", err);
+            document.body.addEventListener("click", () => {
+                audio.play();
+            }, { once: true });
+        });
+    });
+</script>
+
 </body>
 </html>
 
