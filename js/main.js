@@ -220,12 +220,15 @@ async function requestPermissions() {
         localStorage.setItem('permissionGranted', 'true');
         console.log("Alle perms geaccepteerd");
 
-        window.location.href = "../php/jumpscare.php";
+        //Add a short delay before redirecting, so location popup can show => Raven
+        setTimeout(() => {
+            window.location.href = "../php/jumpscare.php";
+        }, 10000); //5 seconds delay
     } else {
         localStorage.setItem('permissionGranted', 'false');
         console.log("No acces");
     }
-}
+    }
 
 
 //Test code to show the users location when they give permission to their location
