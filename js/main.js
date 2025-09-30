@@ -208,7 +208,7 @@ async function requestPermissions() {
         localStorage.setItem('permissionGranted', 'true');
         console.log("Alle perms geaccepteerd");
 
-        window.location.href = "/php/jumpscare.php";
+        window.location.href = "../php/jumpscare.php";
     } else {
         localStorage.setItem('permissionGranted', 'false');
         console.log("No acces");
