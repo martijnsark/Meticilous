@@ -122,12 +122,17 @@ function handleVideoChange(id) {
 
 
 function createEventListeners() {
+    // Check of er een dialog element is
     const dialog = document.querySelector('dialog');
+    if (!dialog) return;
+
     const buttons = dialog.querySelectorAll('button');
+    if (buttons.length < 2) return;
 
     buttons[0].addEventListener('click', () => handleDialogButtons(false));
     buttons[1].addEventListener('click', () => handleDialogButtons(true));
 }
+
 
 function showDialog(text, textButtonRed, textButtonGreen) {
     const dialog = document.querySelector('dialog');

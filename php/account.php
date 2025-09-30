@@ -42,7 +42,12 @@ $videos = dbQuery($sql);
 <!-- main part of the app -->
 <div class="app__videos">
     <?php if (empty($videos)): ?>
-        <p style="color:white; padding:20px;">Je hebt nog geen video’s opgeslagen.</p>
+        <p style="color:black; padding:20px;">Je hebt nog geen video’s opgeslagen.</p>
+        <div class="videoSidebar__button account-button">
+            <a href="../index.php">
+                <span class="material-icons">arrow_back</span>
+            </a>
+        </div>
     <?php else: ?>
         <?php foreach ($videos as $index => $video): ?>
             <div class="video" id="video-<?= $video['id']; ?>">
