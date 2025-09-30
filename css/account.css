@@ -1,0 +1,151 @@
+/* Algemene instellingen */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    background: crimson;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 100px; /* Ruimte voor fixed header */
+}
+
+/* Header */
+.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    background: rgba(31, 31, 31, 0.9);
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.5);
+    z-index: 100;
+}
+
+.logo {
+    height: 60px;
+}
+
+/* Grid container */
+.app__videos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+    width: 100%;
+    background: #ffba08;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    margin: auto;
+}
+
+/* Video cards */
+.video {
+    position: relative;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.video:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.7);
+}
+
+/* Video player styling */
+.video__player {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+/* Sidebar knop stijl */
+.videoSidebar {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 8px;
+    border-radius: 12px;
+    transform: translateY(-50%);
+}
+
+.videoSidebar__button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 8px 0;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.videoSidebar__button:hover {
+    color: #ffba08;
+    transform: scale(1.1);
+}
+
+.videoSidebar__button p {
+    margin: 5px 0 0;
+    font-size: 0.9rem;
+}
+
+/* Account knop stijl */
+.account-button a {
+    display: inline-block;
+    background-color: crimson;
+    border-radius: 10px;
+    padding: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.account-button a:hover {
+    background-color: darkred;
+}
+
+.material-icons {
+    font-size: 24px;
+}
+
+/* RESPONSIVE GRID INSTELLINGEN */
+
+/* Tablet */
+@media (max-width: 1024px) {
+    .app__videos {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Mobiel */
+@media (max-width: 768px) {
+    body {
+        padding-top: 80px; /* header ruimte verkleinen */
+    }
+
+    .app__videos {
+        grid-template-columns: 1fr;
+        padding: 10px;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+    }
+
+    .logo {
+        height: 50px;
+    }
+
+    .videoSidebar {
+        right: 5px;
+    }
+}
