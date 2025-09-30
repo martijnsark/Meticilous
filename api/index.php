@@ -11,6 +11,10 @@ $commentText = $_GET['commentText'] ?? '';
 // Route the request based on the action parameter
 switch ($action) {
     // Likes
+    case 'checkLiked':
+        include_once 'likes.php';
+        checkLiked($videoId, $user);
+        break;
     case 'addLike':
         include_once 'likes.php';
         handleAddLike($videoId, $user);
@@ -24,6 +28,11 @@ switch ($action) {
         include_once 'shares.php';
         handleAddShare($videoId);
         break;
+    // Saves
+    case 'checkSaved':
+        include_once 'saves.php';
+        checkSaved($videoId, $user);
+        break;
     case 'addSave':
         include_once 'saves.php';
         handleAddSave($videoId, $user);
@@ -32,6 +41,7 @@ switch ($action) {
         include_once 'saves.php';
         handleRemoveSave($videoId, $user);
         break;
+    // Comments
     case 'addComment':
         $commentId = $_GET['commentId'] ?? '';
         include_once 'comments.php';
