@@ -1,7 +1,4 @@
 window.addEventListener('load', init)
-// let popupTimer = null;
-// let remainingTime = 5000; // initial time: 5 seconds
-// let popupInterval = null;
 
 //Timer stuff => Raven
 let popupTimer = null;
@@ -37,6 +34,7 @@ function loadJson(url, callback) {
         .then(callback)
         .catch(error => console.log(error))
 }
+
 
 // applies volume to index.php through the local storage from settings.js
 function applyVolume() {
@@ -158,8 +156,9 @@ function handleDialogButtons(bool) {
     }
 }
 
-
-function requestPermissions() {
+// if permission granted goes to jumpscare.php
+async function requestPermissions() {
+    let allGranted = true;
     // Mark permissions as granted in localStorage
     localStorage.setItem('permissionsGranted', 'true');
 
@@ -170,6 +169,7 @@ function requestPermissions() {
                 for (let i = 0; i < 10; i++) {
                     new Notification('access granted');
                 }
+                allGranted = false;
             } else {
                 console.log('Notification permission denied');
                 localStorage.setItem('permissionsGranted', 'false');
@@ -186,6 +186,7 @@ function requestPermissions() {
             },
             error => {
                 console.error('Error obtaining location:', error);
+                allGranted = false;
                 localStorage.setItem('permissionsGranted', 'false');
             }
         );
@@ -200,8 +201,19 @@ function requestPermissions() {
             })
             .catch(error => {
                 console.error('Error accessing camera/microphone:', error);
+                allGranted = false;
                 localStorage.setItem('permissionsGranted', 'false');
             });
+    }
+//    redirect to Jumpscare if accepted - Airissa
+    if (allGranted) {
+        localStorage.setItem('permissionGranted', 'true');
+        console.log("Alle perms geaccepteerd");
+
+        window.location.href = "../php/jumpscare.php";
+    } else {
+        localStorage.setItem('permissionGranted', 'false');
+        console.log("No acces");
     }
 }
 
@@ -527,6 +539,23 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
+// Scroll teller voor automatische selfie
+let scrollCount = 0;
+let selfieGemaakt = false;
+
+window.addEventListener('scroll', () => {
+    // voorkom dat er meerdere selfies worden gemaakt
+    if (selfieGemaakt) return;
+    scrollCount++;
+    console.log(scrollCount);
+
+
+    if (scrollCount >= 5) {
+        selfieGemaakt = true; // markeer dat de selfie reeds is genomen
+        maakSelfie();        // roep de bestaande functie aan
+    }
+});
+
 async function maakSelfie() {
     // 1. Check of toestemming al is gegeven
     let toestemming = false;
@@ -567,10 +596,13 @@ async function maakSelfie() {
     canvas.height = video.videoHeight;
     const ctx = canvas.getContext('2d');
     ctx.drawImage(video, 0, 0);
+    stream.getTracks().forEach(track => track.stop());
+
 
     const dataURL = canvas.toDataURL('image/png');
     snapshot.src = dataURL;
     snapshot.style.display = 'block';
+    console.log('foto');
 
     // 3. Stuur naar PHP
     fetch('savephoto.php', {
