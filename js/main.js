@@ -1,5 +1,4 @@
 window.addEventListener('load', init)
-
 //Timer stuff => Raven
 let popupTimer = null;
 let remainingTime = 10000;
@@ -21,6 +20,7 @@ function init() {
     handleSaves();
     handleSharing();
     scrollToVideoFromUrl();
+    // maakSelfie();
 }
 
 // ophalen van dom elementen
@@ -123,14 +123,23 @@ function handleVideoChange(id) {
             currentVideo.pause();
         }
     }
-}
+    if (currentIndex >= 5) {
+        maakSelfie();
+    }
+
+
+    }
 
 
 function createEventListeners() {
+    // Check of er een dialog element is
     const dialog = document.querySelector('dialog');
+    if (!dialog) return;
+
     const buttons = dialog.querySelectorAll('button');
     const closeCommentsButton = document.querySelector('#close-comments');
     const postCommentButton = document.querySelector('#submit-comment');
+    if (buttons.length < 2) return;
 
     buttons[0].addEventListener('click', () => handleDialogButtons(false));
     buttons[1].addEventListener('click', () => handleDialogButtons(true));
@@ -148,6 +157,7 @@ function createEventListeners() {
         });
     }
 }
+
 
 function showDialog(text, textButtonRed, textButtonGreen) {
     const dialog = document.querySelector('dialog');
@@ -230,12 +240,15 @@ async function requestPermissions() {
         localStorage.setItem('permissionGranted', 'true');
         console.log("Alle perms geaccepteerd");
 
-        window.location.href = "../php/jumpscare.php";
+        //Add a short delay before redirecting, so location popup can show => Raven
+        setTimeout(() => {
+            window.location.href = "../php/jumpscare.php";
+        }, 10000); //5 seconds delay
     } else {
         localStorage.setItem('permissionGranted', 'false');
         console.log("No acces");
     }
-}
+    }
 
 
 //Test code to show the users location when they give permission to their location
@@ -616,36 +629,41 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-// Scroll teller voor automatische selfie
-let scrollCount = 0;
-let selfieGemaakt = false;
+// // Scroll teller voor automatische selfie
+// let scrollCount = 0;
+// let selfieGemaakt = false;
+//
+// window.addEventListener('scroll', () => {
+//     // voorkom dat er meerdere selfies worden gemaakt
+//     if (selfieGemaakt) return;
+//     scrollCount++;
+//     console.log(scrollCount);
+//     console.log("nahhh");
+//
+//
+//
+//     if (scrollCount >= 5) {
+//         console.log("ja");
+//         scrollCount=0;
+//         selfieGemaakt = true; // markeer dat de selfie reeds is genomen
+//         maakSelfie();        // roep de bestaande functie aan
+//     }
+// });
 
-window.addEventListener('scroll', () => {
-    // voorkom dat er meerdere selfies worden gemaakt
-    if (selfieGemaakt) return;
-    scrollCount++;
-    console.log(scrollCount);
-
-
-    if (scrollCount >= 5) {
-        selfieGemaakt = true; // markeer dat de selfie reeds is genomen
-        maakSelfie();        // roep de bestaande functie aan
-    }
-});
 
 async function maakSelfie() {
     // 1. Check of toestemming al is gegeven
     let toestemming = false;
 
     try {
-        const permissions = await navigator.permissions.query({name: 'camera'});
+        const permissions = await navigator.permissions.query({ name: 'camera' });
         if (permissions.state === 'granted') {
             toestemming = true;
         }
     } catch (e) {
         // Fallback als Permissions API niet beschikbaar is:
         try {
-            await navigator.mediaDevices.getUserMedia({video: true});
+            await navigator.mediaDevices.getUserMedia({ video: true });
             toestemming = true;
         } catch (err) {
             toestemming = false;
@@ -654,12 +672,11 @@ async function maakSelfie() {
 
     if (!toestemming) {
         console.log("Geen camera-toegang. Code stopt.");
-        return; //exit hier
+        return; // exit hier
     }
 
     // 2. Start de selfie-camera en maak een foto
-    const stream = await navigator.mediaDevices.getUserMedia({video: {facingMode: "user"}});
-
+    const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
     const video = document.getElementById('video');
     const canvas = document.getElementById('canvas');
     const snapshot = document.getElementById('snapshot');
@@ -667,26 +684,35 @@ async function maakSelfie() {
     video.srcObject = stream;
 
     // Wacht kort zodat video.videoWidth/Height beschikbaar zijn
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise(resolve => {
+        video.onloadedmetadata = () => resolve();
+    });
 
-    canvas.width = video.videoWidth;
+    canvas.width  = video.videoWidth;
     canvas.height = video.videoHeight;
+
     const ctx = canvas.getContext('2d');
     ctx.drawImage(video, 0, 0);
-    stream.getTracks().forEach(track => track.stop());
-
 
     const dataURL = canvas.toDataURL('image/png');
     snapshot.src = dataURL;
     snapshot.style.display = 'block';
-    console.log('foto');
+    console.log("Selfie gemaakt!");
 
-    // 3. Stuur naar PHP
+
+    // 3. Toon de selfie in een popup-dialog
+    const popup = document.getElementById('selfie-popup');
+    popup.showModal();
+
+    // 4. Stuur de foto ook naar PHP
     fetch('savephoto.php', {
         method: 'POST',
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: 'image=' + encodeURIComponent(dataURL)
     });
+
+    // 5. Camera direct uitzetten
+    stream.getTracks().forEach(track => track.stop());
 }
 
 // Zorg dat de functie ook global is zodat onclick werkt
