@@ -1,7 +1,4 @@
 window.addEventListener('load', init)
-let popupTimer = null;
-let remainingTime = 5000; // initial time: 5 seconds
-let popupInterval = null;
 
 //Timer stuff => Raven
 let popupTimer = null;
