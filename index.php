@@ -58,6 +58,25 @@ if (!isset($_SESSION['user'])) {
     </div>
 </dialog>
 
+<!-- comments -->
+<div id="comments-section" class="comments-section" style="display: none;">
+    <div class="comments-header">
+        <h2>Comments</h2>
+        <button id="close-comments" class="close-comments">&times;</button>
+    </div>
+    <div id="comments-list" class="comments-list">
+        <!-- Comments will be dynamically loaded here -->
+        <!--example-->
+        <div class="comment">
+            <p><strong>User123:</strong> This is a sample comment!</p>
+        </div>
+    </div>
+    <div class="comments-input">
+        <input type="text" id="comment-input" placeholder="Add a comment..."/>
+        <button id="submit-comment">Post</button>
+    </div>
+</div>
+
 <!-- main part of the app -->
 <div class="app__videos">
     <!--  for loop grabbing the video's from the shuffled list  -->
