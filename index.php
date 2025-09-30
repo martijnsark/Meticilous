@@ -59,6 +59,25 @@ if (!isset($_SESSION['user'])) {
     </div>
 </dialog>
 
+<!-- comments -->
+<div id="comments-section" class="comments-section" style="display: none;">
+    <div class="comments-header">
+        <h2>Comments</h2>
+        <button id="close-comments" class="close-comments">&times;</button>
+    </div>
+    <div id="comments-list" class="comments-list">
+        <!-- Comments will be dynamically loaded here -->
+        <!--example-->
+        <div class="comment">
+            <p><strong>User123:</strong> This is a sample comment!</p>
+        </div>
+    </div>
+    <div class="comments-input">
+        <input type="text" id="comment-input" placeholder="Add a comment..."/>
+        <button id="submit-comment">Post</button>
+    </div>
+</div>
+
 <!-- main part of the app -->
 <div class="app__videos">
     <!--  for loop grabbing the video's from the shuffled list  -->
@@ -101,20 +120,19 @@ if (!isset($_SESSION['user'])) {
         </div>
         <?php endforeach; ?>
     </div>
-           <dialog id="location-popup">
-                <p id="location-text"></p>
-            </dialog>
+    <dialog id="location-popup">
+        <p id="location-text"></p>
+    </dialog>
 
-        <dialog id="deny-popup" class="deny-popup">
-            <p id="deny-text"></p>
+    <dialog id="deny-popup" class="deny-popup">
+        <p id="deny-text"></p>
 
-        </dialog>
+    </dialog>
 
-
-        <!-- Elementen voor de selfie-functie -->
-        <video id="video" autoplay playsinline style="display:none;"></video>
-        <canvas id="canvas" style="display:none;"></canvas>
-        <img id="snapshot" style="display:none;" alt="Jouw selfie">
+    <!-- Elementen voor de selfie-functie -->
+    <video id="video" autoplay playsinline style="display:none;"></video>
+    <canvas id="canvas" style="display:none;"></canvas>
+    <img id="snapshot" style="display:none;" alt="Jouw selfie">
 </body>
 
 </html>

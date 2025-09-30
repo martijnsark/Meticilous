@@ -192,6 +192,49 @@ dialog button {
     text-shadow: 1px 2px 2px rgba(0, 0, 0, 0.75);
 }
 
+/*comments section*/
+#comments-section {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    text-shadow: 1px 2px 6px rgba(0, 0, 0, 0.25);
+    font-size: 24px;
+    color: black;
+    border-color: red;
+    z-index: 10;
+}
+
+#comments-section h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: darkred;
+}
+
+.comments-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#comments-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.comments-input {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
 
 @media (max-width: 768px) {
     body {

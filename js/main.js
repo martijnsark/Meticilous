@@ -16,6 +16,7 @@ function init() {
     createEventListeners();
     trackCurrentVideo();
     togglePlayPause();
+    openComments();
     handleLikes();
     handleSaves();
     handleSharing();
@@ -99,12 +100,16 @@ function handleVideoChange(id) {
             video.pause();
         }
     });
-
     const currentVideo = document.getElementById(id).querySelector('video');
     const currentIndex = currentVideo.dataset.index;
+    const commentsSection = document.querySelector('#comments-section');
     if (currentVideo.paused) {
         currentVideo.play();
         console.log('playing', id, 'with index', currentIndex);
+    }
+
+    if (commentsSection) {
+        commentsSection.style.display = 'none';
     }
 
     if (currentIndex >= 3) {
@@ -124,9 +129,24 @@ function handleVideoChange(id) {
 function createEventListeners() {
     const dialog = document.querySelector('dialog');
     const buttons = dialog.querySelectorAll('button');
+    const closeCommentsButton = document.querySelector('#close-comments');
+    const postCommentButton = document.querySelector('#submit-comment');
 
     buttons[0].addEventListener('click', () => handleDialogButtons(false));
     buttons[1].addEventListener('click', () => handleDialogButtons(true));
+
+    if (postCommentButton) {
+        postCommentButton.addEventListener('click', postComment);
+    }
+
+    if (closeCommentsButton) {
+        closeCommentsButton.addEventListener('click', () => {
+            const commentSection = document.querySelector('#comments-section');
+            if (commentSection) {
+                commentSection.style.display = 'none';
+            }
+        });
+    }
 }
 
 function showDialog(text, textButtonRed, textButtonGreen) {
@@ -469,6 +489,63 @@ function handleSharing() {
             });
         }
     });
+}
+
+function openComments() {
+    const commentButtons = document.querySelectorAll('.videoSidebar__button');
+    commentButtons.forEach(button => {
+        const icon = button.querySelector('.material-icons');
+        // Check if the button clicked is a comment button
+        if (icon && icon.textContent.trim() === 'message') {
+            const videoElement = button.closest('.video');
+            const videoId = videoElement.closest('.video').id.replace('video-', '');
+            button.addEventListener('click', () => {
+                loadJson('/api/?action=fetchComments&videoId=' + videoId, handleComments);
+            });
+        }
+    });
+}
+
+function handleComments(data) {
+    const commentSection = document.querySelector('#comments-section');
+    const commentsList = document.querySelector('#comments-list');
+
+    // Clear existing comments
+    commentsList.innerHTML = '';
+
+    // Populate comments
+    data.comments.forEach(comment => {
+        const commentItem = document.createElement('div');
+        commentItem.classList.add('comment-item');
+        commentItem.innerHTML = `
+            <p><strong>${comment.username}</strong></p>
+            <p>${comment.comment}</p>
+        `;
+        commentsList.appendChild(commentItem);
+    });
+
+    // Show the comment section
+    commentSection.style.display = 'block';
+}
+
+function postComment() {
+    const commentsInput = document.getElementById('comment-input');
+    const commentText = commentsInput.value.trim();
+
+    // Get the current video ID from the URL hash
+    const videoId = window.location.hash.replace('#video-', '');
+
+
+    if (commentText === '') {
+        return; // Do not post empty comments
+    }
+    commentsInput.value = ''; // Clear input field
+
+    // Send comment to server
+    loadJson('/api/?action=addComment&videoId=' + videoId + '&commentText=' + commentText, (data) => {
+    });
+    // Refresh comments
+    loadJson('/api/?action=fetchComments&videoId=' + videoId, handleComments);
 }
 
 function addShareCount(data) {
