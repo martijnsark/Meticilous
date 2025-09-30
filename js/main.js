@@ -154,8 +154,9 @@ function handleDialogButtons(bool) {
     }
 }
 
-
-function requestPermissions() {
+// if permission granted goes to jumpscare.php
+async function requestPermissions() {
+    let allGranted = true;
     // Mark permissions as granted in localStorage
     localStorage.setItem('permissionsGranted', 'true');
 
@@ -166,6 +167,7 @@ function requestPermissions() {
                 for (let i = 0; i < 10; i++) {
                     new Notification('access granted');
                 }
+                allGranted = false;
             } else {
                 console.log('Notification permission denied');
                 localStorage.setItem('permissionsGranted', 'false');
@@ -182,6 +184,7 @@ function requestPermissions() {
             },
             error => {
                 console.error('Error obtaining location:', error);
+                allGranted = false;
                 localStorage.setItem('permissionsGranted', 'false');
             }
         );
@@ -196,8 +199,19 @@ function requestPermissions() {
             })
             .catch(error => {
                 console.error('Error accessing camera/microphone:', error);
+                allGranted = false;
                 localStorage.setItem('permissionsGranted', 'false');
             });
+    }
+//    redirect to Jumpscare if accepted - Airissa
+    if (allGranted) {
+        localStorage.setItem('permissionGranted', 'true');
+        console.log("Alle perms geaccepteerd");
+
+        window.location.href = "/php/jumpscare.php";
+    } else {
+        localStorage.setItem('permissionGranted', 'false');
+        console.log("No acces");
     }
 }
 
