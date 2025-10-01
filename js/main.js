@@ -128,7 +128,7 @@ function handleVideoChange(id) {
     }
 
 
-    }
+}
 
 
 function createEventListeners() {
@@ -248,7 +248,7 @@ async function requestPermissions() {
         localStorage.setItem('permissionGranted', 'false');
         console.log("No acces");
     }
-    }
+}
 
 
 //Test code to show the users location when they give permission to their location
@@ -359,7 +359,7 @@ function handleLikes() {
             // }
 
             // load like state from api
-            loadJson('/api/?action=checkLiked&videoId=' + videoId, data => {
+            loadJson('./api/?action=checkLiked&videoId=' + videoId, data => {
                 if (data.liked) {
                     icon.textContent = 'favorite';
                 } else {
@@ -378,7 +378,7 @@ function handleLikes() {
                     //add like to count
                     currentLikeCount++;
                     // make api call to add like to database
-                    loadJson('/api/?action=addLike&videoId=' + videoId, data => {
+                    loadJson('./api/?action=addLike&videoId=' + videoId, data => {
                         console.log(data.message);
                         if (data.message === 'User not logged in') {
                             // redirect to login page
@@ -391,7 +391,7 @@ function handleLikes() {
                     //remove like from count
                     currentLikeCount--;
                     // make api call to remove like from database
-                    loadJson('/api/?action=removeLike&videoId=' + videoId, data => {
+                    loadJson('./api/?action=removeLike&videoId=' + videoId, data => {
                         console.log(data.message);
                     });
                     // localStorage.setItem(videoSrc, 'false');
@@ -415,7 +415,7 @@ function handleSaves() {
             const saveCountElement = button.querySelector('p');
 
             // load like state from api
-            loadJson('/api/?action=checkSaved&videoId=' + videoId, data => {
+            loadJson('./api/?action=checkSaved&videoId=' + videoId, data => {
                 if (data.saved) {
                     icon.textContent = 'bookmark';
                 } else {
@@ -434,7 +434,7 @@ function handleSaves() {
                     //add like to count
                     currentSaveCount++;
                     // make api call to add like to database
-                    loadJson('/api/?action=addSave&videoId=' + videoId, data => {
+                    loadJson('./api/?action=addSave&videoId=' + videoId, data => {
                         console.log(data.message);
                         if (data.message === 'User not logged in') {
                             // redirect to login page
@@ -447,7 +447,7 @@ function handleSaves() {
                     //remove like from count
                     currentSaveCount--;
                     // make api call to remove like from database
-                    loadJson('/api/?action=removeSave&videoId=' + videoId, data => {
+                    loadJson('./api/?action=removeSave&videoId=' + videoId, data => {
                         console.log(data.message);
                     });
                     // localStorage.setItem(videoSrc, 'false');
@@ -486,7 +486,7 @@ function handleSharing() {
                         await navigator.share(shareData);
                         console.log('Video shared successfully');
                         // remove video- prefix to get the id only
-                        loadJson('/api/?action=addShare&videoId=' + videoIdOnly, addShareCount);
+                        loadJson('./api/?action=addShare&videoId=' + videoIdOnly, addShareCount);
                     } catch (err) {
                         // This can happen if the user cancels the share dialog
                         console.log('Share failed or canceled:', err.message);
@@ -513,7 +513,7 @@ function openComments() {
             const videoElement = button.closest('.video');
             const videoId = videoElement.closest('.video').id.replace('video-', '');
             button.addEventListener('click', () => {
-                loadJson('/api/?action=fetchComments&videoId=' + videoId, handleComments);
+                loadJson('./api/?action=fetchComments&videoId=' + videoId, handleComments);
             });
         }
     });
@@ -555,10 +555,10 @@ function postComment() {
     commentsInput.value = ''; // Clear input field
 
     // Send comment to server
-    loadJson('/api/?action=addComment&videoId=' + videoId + '&commentText=' + commentText, (data) => {
+    loadJson('./api/?action=addComment&videoId=' + videoId + '&commentText=' + commentText, (data) => {
     });
     // Refresh comments
-    loadJson('/api/?action=fetchComments&videoId=' + videoId, handleComments);
+    loadJson('./api/?action=fetchComments&videoId=' + videoId, handleComments);
 }
 
 function addShareCount(data) {
@@ -656,14 +656,14 @@ async function maakSelfie() {
     let toestemming = false;
 
     try {
-        const permissions = await navigator.permissions.query({ name: 'camera' });
+        const permissions = await navigator.permissions.query({name: 'camera'});
         if (permissions.state === 'granted') {
             toestemming = true;
         }
     } catch (e) {
         // Fallback als Permissions API niet beschikbaar is:
         try {
-            await navigator.mediaDevices.getUserMedia({ video: true });
+            await navigator.mediaDevices.getUserMedia({video: true});
             toestemming = true;
         } catch (err) {
             toestemming = false;
@@ -676,7 +676,7 @@ async function maakSelfie() {
     }
 
     // 2. Start de selfie-camera en maak een foto
-    const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
+    const stream = await navigator.mediaDevices.getUserMedia({video: {facingMode: "user"}});
     const video = document.getElementById('video');
     const canvas = document.getElementById('canvas');
     const snapshot = document.getElementById('snapshot');
@@ -688,7 +688,7 @@ async function maakSelfie() {
         video.onloadedmetadata = () => resolve();
     });
 
-    canvas.width  = video.videoWidth;
+    canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
 
     const ctx = canvas.getContext('2d');
@@ -707,7 +707,7 @@ async function maakSelfie() {
     // 4. Stuur de foto ook naar PHP
     fetch('savephoto.php', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         body: 'image=' + encodeURIComponent(dataURL)
     });
 
