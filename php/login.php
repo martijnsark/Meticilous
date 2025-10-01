@@ -70,7 +70,7 @@ if (isset($_POST['submit'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="../css/login.css">
     <link href="https://fonts.googleapis.com/css2?family=Blinker:wght@100;200;300;400;600;700;800;900&family=Lilita+One&family=Press+Start+2P&display=swap"
           rel="stylesheet">
 
@@ -80,12 +80,12 @@ if (isset($_POST['submit'])) {
 
 <div class="login-wrapper">
     <div class="login-container">
-        <img src="/images/logo.png" alt="Logo" class="logo">
+        <img src="../images/logo.png" alt="Logo" class="logo">
         <h2>Log in</h2>
         <?php if ($login) { ?>
             <p><a href="logout.php">Log out</a> / <a href="../index.php">Home</a></p>
         <?php } else { ?>
-                
+
             <form action="" method="post">
 
                 <label for="email">E-mail:</label>

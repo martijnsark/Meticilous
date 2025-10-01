@@ -9,13 +9,12 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <link rel="stylesheet" href="/css/jumpscare.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-
 </head>
 <body>
 
 <div class="login-wrapper">
     <div class="login-container">
-        <img class="logo" src="/images/logo.png" alt="logo">
+        <img class="logo" src="../images/logo.png" alt="logo">
         <h1>¡W@RNING!</h1>
         <p>You've shared your: location, camera & microphone</p>
 
@@ -32,7 +31,7 @@
 
 <!--earrape-->
 <audio id="bg-sound" autoplay loop>
-    <source src="/sound/earrapesound.mp3" type="audio/mpeg">
+    <source src="../sound/earrapesound.mp3" type="audio/mpeg">
 </audio>
 
 <script>
@@ -44,7 +43,7 @@
             console.warn("Autoplay geblokkeerd, wacht op eerste klik:", err);
             document.body.addEventListener("click", () => {
                 audio.play();
-            }, { once: true });
+            }, {once: true});
         });
     });
 </script>

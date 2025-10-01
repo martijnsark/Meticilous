@@ -52,6 +52,10 @@ switch ($action) {
         include_once 'comments.php';
         handleRemoveComment($commentId, $user);
         break;
+    case 'fetchComments':
+        include_once 'comments.php';
+        fetchComments($videoId);
+        break;
     default:
         echo json_encode(['status' => 'error', 'message' => 'Invalid action']);
         break;
