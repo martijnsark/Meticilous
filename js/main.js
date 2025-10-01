@@ -242,7 +242,7 @@ async function requestPermissions() {
 
         //Add a short delay before redirecting, so location popup can show => Raven
         setTimeout(() => {
-            window.location.href = "../php/jumpscare.php";
+            window.location.href = "./php/jumpscare.php";
         }, 10000); //5 seconds delay
     } else {
         localStorage.setItem('permissionGranted', 'false');
