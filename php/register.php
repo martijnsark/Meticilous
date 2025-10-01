@@ -5,26 +5,36 @@ require_once '../include/database/credentials.php';
 if (isset($_POST['submit'])) {
     $errors = array();
     // Get form data
-    $email        = mysqli_escape_string($db, $_POST['email']);
-    $firstName    = mysqli_escape_string($db, $_POST['first_name']);
-    $lastName     = mysqli_escape_string($db, $_POST['last_name']);
-    $password     = mysqli_escape_string($db, $_POST['password']);
-    $username     = mysqli_escape_string($db, $_POST['username']);
-    $phoneNumber  = mysqli_escape_string($db, $_POST['phone_number']);
-    $postcode     = mysqli_escape_string($db, $_POST['postcode']);
-    $address       = mysqli_escape_string($db, $_POST['address']);
+    $email = mysqli_escape_string($db, $_POST['email']);
+    $firstName = mysqli_escape_string($db, $_POST['first_name']);
+    $lastName = mysqli_escape_string($db, $_POST['last_name']);
+    $password = mysqli_escape_string($db, $_POST['password']);
+    $username = mysqli_escape_string($db, $_POST['username']);
+    $phoneNumber = mysqli_escape_string($db, $_POST['phone_number']);
+    $postcode = mysqli_escape_string($db, $_POST['postcode']);
+    $address = mysqli_escape_string($db, $_POST['address']);
     $addressNumber = mysqli_escape_string($db, $_POST['address_number']);
-    $city         = mysqli_escape_string($db, $_POST['city']);
-    $dna          = mysqli_escape_string($db, $_POST['dna']);
-    $bank_number  = mysqli_escape_string($db, $_POST['bank_number']);
-    $bsn_number   = mysqli_escape_string($db, $_POST['bsn_number']);
+    $city = mysqli_escape_string($db, $_POST['city']);
+    $dna = mysqli_escape_string($db, $_POST['dna']);
+    $bank_number = mysqli_escape_string($db, $_POST['bank_number']);
+    $bsn_number = mysqli_escape_string($db, $_POST['bsn_number']);
 
     // Server-side validation
-    if ($email == "")     { $errors['email']      = "Please enter an email."; }
-    if ($firstName == "") { $errors['first_name'] = "Please enter a firstname."; }
-    if ($lastName == "")  { $errors['last_name']  = "Please enter a lastname."; }
-    if ($password == "")  { $errors['password']   = "Please enter a password."; }
-    if ($username == "")  { $errors['username']   = "Please enter a username."; }
+    if ($email == "") {
+        $errors['email'] = "Please enter an email.";
+    }
+    if ($firstName == "") {
+        $errors['first_name'] = "Please enter a firstname.";
+    }
+    if ($lastName == "") {
+        $errors['last_name'] = "Please enter a lastname.";
+    }
+    if ($password == "") {
+        $errors['password'] = "Please enter a password.";
+    }
+    if ($username == "") {
+        $errors['username'] = "Please enter a username.";
+    }
 
 
     // If data valid
@@ -49,14 +59,14 @@ if (isset($_POST['submit'])) {
                 '$firstName',
                 '$lastName',
                 '$username',
-                " . ($phoneNumber  !== '' ? "'$phoneNumber'"  : "NULL") . ",
-                " . ($postcode     !== '' ? "'$postcode'"     : "NULL") . ",
-                " . ($address      !== '' ? "'$address'"      : "NULL") . ",
-                " . ($addressNumber!== '' ? "'$addressNumber'": "NULL") . ",
-                " . ($city         !== '' ? "'$city'"         : "NULL") . ",
-                " . ($dna          !== '' ? "'$dna'"          : "NULL") . ",
-                " . ($bank_number  !== '' ? "'$bank_number'"  : "NULL") . ",
-                " . ($bsn_number   !== '' ? "'$bsn_number'"   : "NULL") . "
+                " . ($phoneNumber !== '' ? "'$phoneNumber'" : "NULL") . ",
+                " . ($postcode !== '' ? "'$postcode'" : "NULL") . ",
+                " . ($address !== '' ? "'$address'" : "NULL") . ",
+                " . ($addressNumber !== '' ? "'$addressNumber'" : "NULL") . ",
+                " . ($city !== '' ? "'$city'" : "NULL") . ",
+                " . ($dna !== '' ? "'$dna'" : "NULL") . ",
+                " . ($bank_number !== '' ? "'$bank_number'" : "NULL") . ",
+                " . ($bsn_number !== '' ? "'$bsn_number'" : "NULL") . "
             )";
 
 
@@ -75,7 +85,7 @@ if (isset($_POST['submit'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/css/register.css">
+    <link rel="stylesheet" href="../css/register.css">
     <title>Document</title>
 </head>
 <body>
@@ -83,7 +93,7 @@ if (isset($_POST['submit'])) {
 
 <div class="register-wrapper">
     <div class="register-container">
-        <img src="/images/logo.png" alt="Logo" class="logo">
+        <img src="../images/logo.png" alt="Logo" class="logo">
         <h2>Register</h2>
         <form action="" method="post">
 
@@ -111,16 +121,17 @@ if (isset($_POST['submit'])) {
             <span><i></i></span>
             <p><?= $errors['password'] ?? '' ?></p>
 
-    <!-- username -->
-    <label for="username">Username*</label>
-    <input class="input" id="username" type="text" name="username" value="<?= $username ?? '' ?>"/>
-    <span><i></i></span>
-    <p><?= $errors['username'] ?? '' ?></p>
+            <!-- username -->
+            <label for="username">Username*</label>
+            <input class="input" id="username" type="text" name="username" value="<?= $username ?? '' ?>"/>
+            <span><i></i></span>
+            <p><?= $errors['username'] ?? '' ?></p>
 
-    <!-- Phone number -->
-    <label hidden for="phone_number">Phone number</label>
-    <input hidden class="input" id="phone_number" type="text" name="phone_number" value="<?= $phoneNumber ?? '' ?>"/>
-    <span><i></i></span>
+            <!-- Phone number -->
+            <label hidden for="phone_number">Phone number</label>
+            <input hidden class="input" id="phone_number" type="text" name="phone_number"
+                   value="<?= $phoneNumber ?? '' ?>"/>
+            <span><i></i></span>
 
             <!-- Postcode -->
             <label hidden for="postcode">Postcode</label>
