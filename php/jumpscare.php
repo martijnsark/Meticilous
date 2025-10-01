@@ -7,7 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>¡WARNING!</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+<!--    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=arrow_back" />-->
     <link rel="stylesheet" href="/css/jumpscare.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 </head>
 <body>
 
@@ -19,7 +21,9 @@
 
         <div class="back-container">
             <a href="../index.php" class="back-button">
+                <span class="material-symbols-outlined">arrow_back</span></a>
             <a href="https://nordsecurity.com/blog/app-permissions-you-should-avoid-giving" class="back-button">
+                <span class="material-symbols-outlined">security</span>
             </a>
         </div>
     </div>
